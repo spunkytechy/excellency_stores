@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — KISSOWRA'S STORES</title>
+  <meta name="description" content="View product details at KISSOWRA'S STORES." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav scrolled" id="mainNav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">KISSOWRA'<span>S</span> STORES</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="shop.html" class="nav-link active">Shop</a></li>
+      <li><a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a></li>
+      <li><a href="shop.html?cat=Dresses" class="nav-link">Fashion</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+        <i data-feather="shopping-bag"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="shop.html" class="nav-link">Shop</a>
+  <a href="cart.html" class="nav-link">Cart (<span id="mobileCartCount">0</span>)</a>
+</div>
+
+<!-- ── Breadcrumb ─────────────────────────────────────────── -->
+<div style="padding:calc(var(--nav-height) + var(--space-5)) 0 0;background:var(--clr-accent-light);border-bottom:1px solid var(--clr-border);">
+  <div class="container">
+    <nav aria-label="Breadcrumb" style="font-size:var(--text-xs);color:var(--clr-muted);padding-bottom:var(--space-4);">
+      <a href="index.html" style="color:var(--clr-muted);">Home</a>
+      <span style="margin:0 var(--space-2);">/</span>
+      <a href="shop.html" style="color:var(--clr-muted);">Shop</a>
+      <span style="margin:0 var(--space-2);">/</span>
+      <span id="breadcrumbProduct" style="color:var(--clr-dark);">Product</span>
+    </nav>
+  </div>
+</div>
+
+<!-- ── Product Detail ─────────────────────────────────────── -->
+<main class="product-detail">
+  <div class="container">
+
+    <!-- Loading State -->
+    <div id="productLoading" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+      <div class="spinner" aria-label="Loading product"></div>
+    </div>
+
+    <!-- Product Content (hidden until loaded) -->
+    <div id="productContent" style="display:none;">
+      <div class="product-detail__grid">
+
+        <!-- Gallery -->
+        <div class="product-gallery" aria-label="Product images">
+          <div class="product-gallery__main" id="mainImageWrap">
+            <img id="mainProductImage" src="" alt="Product image" />
+            <button class="product-gallery__zoom" id="zoomBtn" aria-label="Zoom image">🔍</button>
+          </div>
+          <div class="product-gallery__thumbnails" id="thumbnailStrip" role="list"></div>
+        </div>
+
+        <!-- Info -->
+        <div class="product-info">
+          <p class="product-info__category" id="productCategory"></p>
+          <h1 class="product-info__name" id="productName"></h1>
+
+          <div class="product-info__price" id="productPriceBlock"></div>
+
+          <p class="product-info__stock" id="stockStatus"></p>
+
+          <p class="product-info__description" id="productDescription"></p>
+
+          <!-- Variants -->
+          <div class="variants-section" id="variantSection" style="display:none;">
+            <div class="variants-label">Select Option: <strong id="selectedVariantLabel">—</strong></div>
+            <div class="variant-chips" id="variantChips" role="group" aria-label="Product variants"></div>
+          </div>
+
+          <!-- Quantity -->
+          <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-5);">
+            <span style="font-size:var(--text-sm);font-weight:var(--fw-semi);color:var(--clr-dark);">Quantity:</span>
+            <div class="qty-selector" role="group" aria-label="Quantity selector">
+              <button class="qty-selector__btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
+              <input class="qty-selector__input" type="number" id="qtyInput" value="1" min="1" max="99" aria-label="Quantity" readonly />
+              <button class="qty-selector__btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+            </div>
+            <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="stockCount"></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="product-info__actions">
+            <button class="btn btn-secondary btn--lg" id="addToCartBtn" aria-label="Add to cart">
+              <i data-feather="shopping-bag" aria-hidden="true"></i>
+              Add to Cart
+            </button>
+            <button class="btn btn-primary btn--lg" id="buyNowBtn" aria-label="Buy now">
+              Buy Now
+            </button>
+          </div>
+
+          <!-- Trust badges -->
+          <div style="display:flex;gap:var(--space-5);margin-top:var(--space-6);padding-top:var(--space-5);border-top:1px solid var(--clr-border);flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--clr-muted);">
+              🚚 Fast Delivery
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--clr-muted);">
+              🔒 Secure Payment
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--clr-muted);">
+              ✨ 100% Authentic
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="productError" style="display:none;" class="empty-state">
+      <div class="empty-state__icon">😔</div>
+      <h2 class="empty-state__title">Product Not Found</h2>
+      <p class="empty-state__text">This product may no longer be available.</p>
+      <a href="shop.html" class="btn btn-primary" style="margin-top:var(--space-4);">Back to Shop</a>
+    </div>
+  </div>
+
+  <!-- ── Related Products ─────────────────────────────── -->
+  <div class="container" style="margin-top:var(--space-20);" id="relatedSection" style="display:none;">
+    <div class="section-header">
+      <p class="label-tag">You May Also Like</p>
+      <h2 class="section-title">Related Products</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="products-grid" id="relatedProducts"></div>
+  </div>
+</main>
+
+<!-- Image Zoom Modal -->
+<div class="modal-overlay" id="zoomModal" role="dialog" aria-modal="true" aria-label="Zoomed product image">
+  <div class="modal" style="max-width:700px;background:transparent;box-shadow:none;">
+    <button class="modal__close" id="zoomClose" aria-label="Close zoom" style="position:absolute;top:var(--space-4);right:var(--space-4);background:rgba(0,0,0,0.7);color:white;z-index:10;">✕</button>
+    <img id="zoomedImage" src="" alt="Zoomed product" style="width:100%;border-radius:var(--radius-lg);" />
+  </div>
+</div>
+
+<!-- Cart added confirmation -->
+<div id="cartAddedBanner" style="display:none;position:fixed;bottom:var(--space-6);left:50%;transform:translateX(-50%);background:var(--clr-success);color:white;padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);font-weight:var(--fw-semi);z-index:9999;box-shadow:var(--shadow-lg);animation:none;">
+  ✓ Added to Cart!
+</div>
+
+<!-- Footer (minimal) -->
+<footer class="site-footer" style="margin-top:var(--space-20);" role="contentinfo">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2024 KISSOWRA'S STORES.</span>
+      <a href="shop.html" style="color:var(--clr-secondary);">Continue Shopping →</a>
+    </div>
+  </div>
+</footer>
+
+<div class="whatsapp-float">
+  <a class="whatsapp-float__btn" id="whatsappFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white"/></svg>
+  </a>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initProductPage());
+</script>
+</body>
+</html>

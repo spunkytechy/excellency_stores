@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complaints — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i data-feather="grid" class="sidebar-link__icon"></i> Dashboard</a>
+      <a href="products.html" class="sidebar-link"><i data-feather="package" class="sidebar-link__icon"></i> Products</a>
+      <a href="orders.html" class="sidebar-link"><i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link"><i data-feather="users" class="sidebar-link__icon"></i> Customers</a>
+      <a href="analytics.html" class="sidebar-link"><i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics</a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link active" aria-current="page"><i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints</a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link"><i data-feather="settings" class="sidebar-link__icon"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out"><i data-feather="log-out"></i></button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar"><i data-feather="menu"></i></button>
+        <div class="topbar-breadcrumb">Admin / <strong>Complaints</strong></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" class="topbar-store-link" target="_blank">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Complaints</h1>
+          <p class="page-subtitle">Manage customer complaints and support requests</p>
+        </div>
+      </div>
+
+      <!-- Status Summary -->
+      <div class="stats-grid" style="margin-bottom:var(--space-6);">
+        <div class="stat-card">
+          <span class="stat-card__icon">🆕</span>
+          <div class="stat-card__label">New</div>
+          <div class="stat-card__value" id="cStatNew">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">🔍</span>
+          <div class="stat-card__label">In Review</div>
+          <div class="stat-card__value" id="cStatReview">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">✅</span>
+          <div class="stat-card__label">Resolved</div>
+          <div class="stat-card__value" id="cStatResolved">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">🔒</span>
+          <div class="stat-card__label">Closed</div>
+          <div class="stat-card__value" id="cStatClosed">—</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="table-card" style="margin-bottom:var(--space-5);">
+        <div style="padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+          <div class="search-bar" style="flex:1;min-width:200px;">
+            <span class="search-bar__icon"><i data-feather="search"></i></span>
+            <input type="search" id="complaintSearch" placeholder="Search by name, phone, order number…" aria-label="Search complaints" />
+          </div>
+          <select class="sort-select" id="complaintStatusFilter" aria-label="Filter by status">
+            <option value="">All Status</option>
+            <option value="new">New</option>
+            <option value="in_review">In Review</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-card__header">
+          <h2 class="table-card__title">All Complaints</h2>
+          <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="complaintTableCount"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" aria-label="Complaints list">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Order #</th>
+                <th>Complaint</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="complaintsTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:var(--space-8);color:var(--clr-muted);">Loading complaints…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="complaintPagination" style="padding:var(--space-4);border-top:1px solid var(--clr-border);"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Complaint Detail Modal -->
+<div class="modal-overlay" id="complaintModal" role="dialog" aria-modal="true" aria-labelledby="complaintModalTitle">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="complaintModalTitle">Complaint Details</h2>
+      <button class="modal__close" id="complaintModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body" id="complaintModalBody"></div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="closeComplaintModal">Close</button>
+      <button class="btn btn-primary" id="updateComplaintStatusBtn" style="display:none;">Update Status</button>
+    </div>
+  </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal-overlay" id="complaintStatusModal" role="dialog" aria-modal="true" aria-labelledby="cStatusTitle">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="cStatusTitle">Update Complaint Status</h2>
+      <button class="modal__close" id="cStatusClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <input type="hidden" id="cStatusId" />
+      <div class="form-group">
+        <label class="form-label" for="cNewStatus">New Status</label>
+        <select class="form-select" id="cNewStatus">
+          <option value="new">New</option>
+          <option value="in_review">In Review</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelCStatusBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveCStatusBtn">Update</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminComplaints());
+</script>
+</body>
+</html>

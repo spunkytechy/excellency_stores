@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orders — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i data-feather="grid" class="sidebar-link__icon"></i> Dashboard</a>
+      <a href="products.html" class="sidebar-link"><i data-feather="package" class="sidebar-link__icon"></i> Products</a>
+      <a href="orders.html" class="sidebar-link active" aria-current="page"><i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link"><i data-feather="users" class="sidebar-link__icon"></i> Customers</a>
+      <a href="analytics.html" class="sidebar-link"><i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics</a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link"><i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints</a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link"><i data-feather="settings" class="sidebar-link__icon"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out"><i data-feather="log-out"></i></button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar"><i data-feather="menu"></i></button>
+        <div class="topbar-breadcrumb">Admin / <strong>Orders</strong></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" class="topbar-store-link" target="_blank">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Orders</h1>
+          <p class="page-subtitle">Track and manage all customer orders</p>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="table-card" style="margin-bottom:var(--space-5);">
+        <div style="padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+          <div class="search-bar" style="flex:1;min-width:200px;">
+            <span class="search-bar__icon"><i data-feather="search"></i></span>
+            <input type="search" id="orderSearch" placeholder="Search by order number, customer, phone…" aria-label="Search orders" />
+          </div>
+          <select class="sort-select" id="orderStatusFilter" aria-label="Filter by order status">
+            <option value="">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="processing">Processing</option>
+            <option value="ready_for_delivery">Ready for Delivery</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select class="sort-select" id="paymentStatusFilter" aria-label="Filter by payment status">
+            <option value="">All Payments</option>
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="table-card">
+        <div class="table-card__header">
+          <h2 class="table-card__title">All Orders</h2>
+          <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="orderTableCount"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" aria-label="Orders list">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:var(--space-8);color:var(--clr-muted);">Loading orders…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="orderPagination" style="padding:var(--space-4);border-top:1px solid var(--clr-border);"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="orderModalTitle">Order Details</h2>
+      <button class="modal__close" id="orderModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body" id="orderModalBody">
+      <!-- Loaded dynamically -->
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="closeOrderModal">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal-overlay" id="statusModal" role="dialog" aria-modal="true" aria-labelledby="statusModalTitle">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="statusModalTitle">Update Order Status</h2>
+      <button class="modal__close" id="statusModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p style="font-size:var(--text-sm);color:var(--clr-muted);margin-bottom:var(--space-4);" id="statusOrderNum"></p>
+      <input type="hidden" id="statusOrderId" />
+      <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+        <div class="form-group">
+          <label class="form-label" for="newOrderStatus">Order Status</label>
+          <select class="form-select" id="newOrderStatus">
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="processing">Processing</option>
+            <option value="ready_for_delivery">Ready for Delivery</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPaymentStatus">Payment Status</label>
+          <select class="form-select" id="newPaymentStatus">
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelStatusBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveStatusBtn">Update Status</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminOrders());
+</script>
+</body>
+</html>

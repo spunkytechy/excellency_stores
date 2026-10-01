@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — KISSOWRA'S STORES</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+<div class="auth-page" role="main">
+  <div class="auth-card" aria-labelledby="loginTitle">
+    <div class="auth-card__logo">KISSOWRA'<span>S</span> STORES</div>
+    <p class="auth-card__sub">Admin Portal</p>
+    <h1 class="auth-card__title" id="loginTitle">Sign In</h1>
+
+    <!-- Error message -->
+    <div class="auth-error" id="loginError" role="alert">
+      <i data-feather="alert-circle" style="width:16px;height:16px;" aria-hidden="true"></i>
+      <span id="loginErrorMsg">Invalid email or password.</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address</label>
+          <input
+            class="form-input"
+            type="email"
+            id="loginEmail"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="admin@kissowrastores.com"
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">
+            Password
+            <button type="button" id="forgotPwBtn" style="font-weight:var(--fw-regular);color:var(--clr-primary);font-size:var(--text-xs);background:none;border:none;cursor:pointer;float:right;padding:0;">
+              Forgot password?
+            </button>
+          </label>
+          <div style="position:relative;">
+            <input
+              class="form-input"
+              type="password"
+              id="loginPassword"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              aria-required="true"
+            />
+            <button
+              type="button"
+              id="togglePassword"
+              aria-label="Toggle password visibility"
+              style="position:absolute;right:var(--space-3);top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--clr-muted);"
+            >
+              <i data-feather="eye" id="eyeIcon" style="width:18px;height:18px;" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn--full btn--lg" id="loginBtn">
+          Sign In
+        </button>
+      </div>
+    </form>
+
+    <div style="margin-top:var(--space-6);text-align:center;border-top:1px solid var(--clr-border);padding-top:var(--space-5);">
+      <a href="index.html" style="font-size:var(--text-sm);color:var(--clr-muted);">← Back to Store</a>
+    </div>
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal-overlay" id="forgotModal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="forgotTitle">Reset Password</h2>
+      <button class="modal__close" id="forgotModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p style="color:var(--clr-mid);font-size:var(--text-sm);margin-bottom:var(--space-5);">
+        Contact your system administrator to reset your password, or update it directly via the .env file on the server.
+      </p>
+      <div style="background:var(--clr-accent-light);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--text-xs);color:var(--clr-mid);">
+        <strong>Admin Contact:</strong> Update the <code>ADMIN_PASSWORD</code> in your <code>.env</code> file and restart the server.
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-primary" id="closeForgotModal">Got It</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initLoginPage());
+</script>
+</body>
+</html>

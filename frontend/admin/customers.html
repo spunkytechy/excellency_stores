@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i data-feather="grid" class="sidebar-link__icon"></i> Dashboard</a>
+      <a href="products.html" class="sidebar-link"><i data-feather="package" class="sidebar-link__icon"></i> Products</a>
+      <a href="orders.html" class="sidebar-link"><i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link active" aria-current="page"><i data-feather="users" class="sidebar-link__icon"></i> Customers</a>
+      <a href="analytics.html" class="sidebar-link"><i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics</a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link"><i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints</a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link"><i data-feather="settings" class="sidebar-link__icon"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out"><i data-feather="log-out"></i></button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar"><i data-feather="menu"></i></button>
+        <div class="topbar-breadcrumb">Admin / <strong>Customers</strong></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" class="topbar-store-link" target="_blank">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-subtitle">Buyers become customers after 3 completed purchases</p>
+        </div>
+      </div>
+
+      <!-- Status Summary Cards -->
+      <div class="stats-grid" style="margin-bottom:var(--space-6);">
+        <div class="stat-card">
+          <span class="stat-card__icon">👥</span>
+          <div class="stat-card__label">Total Records</div>
+          <div class="stat-card__value" id="statTotalBuyers">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">🌟</span>
+          <div class="stat-card__label">Full Customers (3+)</div>
+          <div class="stat-card__value" id="statFullCustomers">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">🔄</span>
+          <div class="stat-card__label">Returning Buyers</div>
+          <div class="stat-card__value" id="statReturning">—</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon">🆕</span>
+          <div class="stat-card__label">New Buyers</div>
+          <div class="stat-card__value" id="statNew">—</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="table-card" style="margin-bottom:var(--space-5);">
+        <div style="padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+          <div class="search-bar" style="flex:1;min-width:200px;">
+            <span class="search-bar__icon"><i data-feather="search"></i></span>
+            <input type="search" id="customerSearch" placeholder="Search by name, phone, email…" aria-label="Search customers" />
+          </div>
+          <select class="sort-select" id="customerStatusFilter" aria-label="Filter by status">
+            <option value="">All Status</option>
+            <option value="customer">Customer (3+ Purchases)</option>
+            <option value="returning_buyer">Returning Buyer</option>
+            <option value="new_buyer">New Buyer</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-card__header">
+          <h2 class="table-card__title">Customer List</h2>
+          <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="customerTableCount"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" aria-label="Customers list">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Purchases</th>
+                <th>Total Spent</th>
+                <th>Last Purchase</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customersTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:var(--space-8);color:var(--clr-muted);">Loading customers…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="customerPagination" style="padding:var(--space-4);border-top:1px solid var(--clr-border);"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Customer Detail Modal -->
+<div class="modal-overlay" id="customerModal" role="dialog" aria-modal="true" aria-labelledby="customerModalTitle">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="customerModalTitle">Customer Details</h2>
+      <button class="modal__close" id="customerModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body" id="customerModalBody"></div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="closeCustomerModal">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminCustomers());
+</script>
+</body>
+</html>

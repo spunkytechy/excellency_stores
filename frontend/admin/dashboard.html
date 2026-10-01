@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link active" aria-current="page">
+        <i data-feather="grid" class="sidebar-link__icon"></i> Dashboard
+      </a>
+      <a href="products.html" class="sidebar-link">
+        <i data-feather="package" class="sidebar-link__icon"></i> Products
+      </a>
+      <a href="orders.html" class="sidebar-link">
+        <i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders
+        <span class="sidebar-badge" id="pendingOrdersBadge">0</span>
+      </a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link">
+        <i data-feather="users" class="sidebar-link__icon"></i> Customers
+      </a>
+      <a href="analytics.html" class="sidebar-link">
+        <i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics
+      </a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link">
+        <i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints
+        <span class="sidebar-badge" id="newComplaintsBadge" style="display:none;">0</span>
+      </a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link">
+        <i data-feather="settings" class="sidebar-link__icon"></i> Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out" title="Log out">
+          <i data-feather="log-out"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar">
+          <i data-feather="menu"></i>
+        </button>
+        <div class="topbar-breadcrumb"><strong>Dashboard</strong></div>
+      </div>
+      <div class="topbar-right">
+        <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="currentDate"></span>
+        <a href="../index.html" class="topbar-store-link" target="_blank" rel="noopener">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back! Here's what's happening in your store.</p>
+        </div>
+        <button class="btn btn-ghost btn--sm" id="refreshDashboard" aria-label="Refresh data">
+          <i data-feather="refresh-cw" aria-hidden="true"></i> Refresh
+        </button>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(139,26,74,0.06);"></div>
+          <span class="stat-card__icon">💰</span>
+          <div class="stat-card__label">Total Sales</div>
+          <div class="stat-card__value" id="statTotalSales">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(46,125,79,0.06);"></div>
+          <span class="stat-card__icon">📅</span>
+          <div class="stat-card__label">Today's Sales</div>
+          <div class="stat-card__value" id="statTodaySales">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(21,101,192,0.06);"></div>
+          <span class="stat-card__icon">📦</span>
+          <div class="stat-card__label">Total Orders</div>
+          <div class="stat-card__value" id="statTotalOrders">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(176,125,0,0.06);"></div>
+          <span class="stat-card__icon">⏳</span>
+          <div class="stat-card__label">Pending Orders</div>
+          <div class="stat-card__value" id="statPendingOrders">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(103,58,183,0.06);"></div>
+          <span class="stat-card__icon">🛍️</span>
+          <div class="stat-card__label">Total Products</div>
+          <div class="stat-card__value" id="statTotalProducts">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__accent" style="--accent-color:rgba(201,149,91,0.08);"></div>
+          <span class="stat-card__icon">👥</span>
+          <div class="stat-card__label">Total Customers</div>
+          <div class="stat-card__value" id="statTotalCustomers">—</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6);">
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <h2 class="chart-card__title">Revenue — Last 7 Days</h2>
+            <span style="font-size:var(--text-xs);color:var(--clr-muted);">Paid orders only</span>
+          </div>
+          <canvas id="revenueChart" aria-label="Revenue chart" role="img"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <h2 class="chart-card__title">Order Status</h2>
+          </div>
+          <canvas id="orderStatusChart" aria-label="Order status chart" role="img"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Orders + Trending -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
+        <!-- Recent Orders -->
+        <div class="table-card">
+          <div class="table-card__header">
+            <h2 class="table-card__title">Recent Orders</h2>
+            <a href="orders.html" class="btn btn-ghost btn--sm">View All</a>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" aria-label="Recent orders">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersBody">
+                <tr><td colspan="4" style="text-align:center;padding:var(--space-6);color:var(--clr-muted);">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Trending Products -->
+        <div class="table-card">
+          <div class="table-card__header">
+            <h2 class="table-card__title">Top Trending</h2>
+            <a href="analytics.html" class="btn btn-ghost btn--sm">View Analytics</a>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" aria-label="Top trending products">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Sold</th>
+                  <th>Revenue</th>
+                </tr>
+              </thead>
+              <tbody id="trendingBody">
+                <tr><td colspan="3" style="text-align:center;padding:var(--space-6);color:var(--clr-muted);">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminDashboard());
+</script>
+</body>
+</html>

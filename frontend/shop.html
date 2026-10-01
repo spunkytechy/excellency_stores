@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — KISSOWRA'S STORES</title>
+  <meta name="description" content="Browse our full collection of premium lip gloss and fashion at KISSOWRA'S STORES." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+<!-- ── Navigation ────────────────────────────────────────── -->
+<nav class="site-nav scrolled" id="mainNav" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">KISSOWRA'<span>S</span> STORES</a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="shop.html" class="nav-link active">Shop</a></li>
+      <li><a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a></li>
+      <li><a href="shop.html?cat=Dresses" class="nav-link">Fashion</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" id="filterToggleMobile" aria-label="Toggle filters" title="Filters">
+        <i data-feather="sliders" aria-hidden="true"></i>
+      </button>
+      <a href="cart.html" class="nav-icon-btn" aria-label="Shopping cart">
+        <i data-feather="shopping-bag" aria-hidden="true"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="shop.html" class="nav-link active">Shop</a>
+  <a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a>
+  <a href="shop.html?cat=Dresses" class="nav-link">Fashion</a>
+  <a href="index.html#about" class="nav-link">About</a>
+</div>
+
+<!-- ── Shop Hero ─────────────────────────────────────────── -->
+<section class="shop-hero">
+  <div class="container">
+    <h1 class="shop-hero__title">Our Collection</h1>
+    <p class="shop-hero__sub">Premium lip gloss & fashion — curated with love</p>
+    <div class="filter-chips" style="justify-content:center;margin-top:var(--space-5);" id="categoryChips">
+      <button class="chip active" data-cat="">All</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Shop Content ──────────────────────────────────────── -->
+<div class="container">
+  <div class="shop-layout">
+
+    <!-- Filter Sidebar -->
+    <aside class="filter-sidebar" id="filterSidebar" aria-label="Product filters">
+      <div class="filter-sidebar__header">
+        <h2 class="filter-sidebar__title">Filters</h2>
+        <button class="filter-clear" id="clearFilters">Clear All</button>
+      </div>
+
+      <!-- Category -->
+      <div class="filter-group">
+        <div class="filter-group__label">Category</div>
+        <div id="categoryFilters">
+          <label class="filter-option">
+            <input type="radio" name="cat" value="" checked /> All Categories
+          </label>
+        </div>
+      </div>
+
+      <!-- Price Range -->
+      <div class="filter-group">
+        <div class="filter-group__label">Price Range</div>
+        <div class="price-range">
+          <input type="number" id="priceMin" placeholder="Min ₦" min="0" aria-label="Minimum price" />
+          <span style="color:var(--clr-muted);">—</span>
+          <input type="number" id="priceMax" placeholder="Max ₦" min="0" aria-label="Maximum price" />
+        </div>
+        <button class="btn btn-ghost btn--sm btn--full" style="margin-top:var(--space-3);" id="applyPrice">Apply</button>
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-group">
+        <div class="filter-group__label">Sort By</div>
+        <label class="filter-option"><input type="radio" name="sort" value="newest" checked /> Newest</label>
+        <label class="filter-option"><input type="radio" name="sort" value="price_asc" /> Price: Low to High</label>
+        <label class="filter-option"><input type="radio" name="sort" value="price_desc" /> Price: High to Low</label>
+        <label class="filter-option"><input type="radio" name="sort" value="name" /> Name A–Z</label>
+      </div>
+    </aside>
+
+    <!-- Products Area -->
+    <div>
+      <div class="shop-toolbar">
+        <p class="shop-toolbar__count" id="productCount">Loading products…</p>
+        <div class="shop-toolbar__right">
+          <div class="search-bar" style="width:220px;">
+            <span class="search-bar__icon"><i data-feather="search" aria-hidden="true"></i></span>
+            <input type="search" id="shopSearch" placeholder="Search…" aria-label="Search products" />
+          </div>
+          <select class="sort-select" id="sortSelect" aria-label="Sort products">
+            <option value="newest">Newest</option>
+            <option value="price_asc">Price ↑</option>
+            <option value="price_desc">Price ↓</option>
+            <option value="name">Name A–Z</option>
+          </select>
+          <div class="view-toggle" role="group" aria-label="View mode">
+            <button class="view-toggle__btn active" id="gridView" aria-label="Grid view" title="Grid">⊞</button>
+            <button class="view-toggle__btn" id="listView" aria-label="List view" title="List">☰</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="products-grid" id="shopProductGrid">
+        <!-- Skeletons -->
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-lg);"></div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo" style="margin-top:var(--space-20);">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">KISSOWRA'<span>S</span> STORES</div>
+        <p class="footer-tagline">Premium lip gloss and fashion for the modern African woman.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Shop</h3>
+        <ul class="footer-links">
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html?cat=Lip+Gloss">Lip Gloss</a></li>
+          <li><a href="shop.html?cat=Dresses">Dresses</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Help</h3>
+        <ul class="footer-links">
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="cart.html">My Cart</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact</h3>
+        <ul class="footer-links">
+          <li id="footerWa"><a href="#">WhatsApp Us</a></li>
+          <li>Lagos, Nigeria</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 KISSOWRA'S STORES.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<div class="whatsapp-float">
+  <button class="complaint-btn" id="complaintFloat">💬 Need Help?</button>
+  <a class="whatsapp-float__btn" id="whatsappFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script>
+  feather.replace();
+  // Shop page initialises in products.js → initShopPage()
+  document.addEventListener('DOMContentLoaded', () => initShopPage());
+</script>
+</body>
+</html>

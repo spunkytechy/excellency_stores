@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart — KISSOWRA'S STORES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav scrolled" id="mainNav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">KISSOWRA'<span>S</span> STORES</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+        <i data-feather="shopping-bag"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="shop.html" class="nav-link">Shop</a>
+</div>
+
+<!-- ── Cart Page ─────────────────────────────────────────── -->
+<main class="cart-page">
+  <div class="container">
+    <div style="margin-bottom:var(--space-8);">
+      <h1 style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-dark);">Your Cart</h1>
+      <p style="color:var(--clr-muted);font-size:var(--text-sm);margin-top:var(--space-2);" id="cartItemCount">0 items</p>
+    </div>
+
+    <!-- Empty Cart -->
+    <div class="empty-state" id="emptyCart" style="display:none;">
+      <div class="empty-state__icon">🛍️</div>
+      <h2 class="empty-state__title">Your cart is empty</h2>
+      <p class="empty-state__text">Looks like you haven't added anything yet. Let's change that!</p>
+      <a href="shop.html" class="btn btn-primary" style="margin-top:var(--space-5);">Start Shopping</a>
+    </div>
+
+    <!-- Cart with items -->
+    <div class="cart-layout" id="cartLayout">
+      <!-- Items -->
+      <div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="cart-items__header">
+            <span>Product</span>
+            <span>Total</span>
+          </div>
+          <div id="cartItemsList"></div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);flex-wrap:wrap;">
+          <a href="shop.html" class="btn btn-ghost">← Continue Shopping</a>
+          <button class="btn btn-danger btn--sm" id="clearCartBtn" aria-label="Clear all items from cart">Clear Cart</button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="cart-summary" aria-label="Order summary">
+        <div class="cart-summary__header">
+          <h2 class="cart-summary__title">Order Summary</h2>
+        </div>
+        <div class="cart-summary__body">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <strong id="cartSubtotal">₦0.00</strong>
+          </div>
+          <div class="summary-row">
+            <span>Delivery</span>
+            <strong id="cartDelivery">₦1,500.00</strong>
+          </div>
+          <div class="summary-row summary-row--total">
+            <span>Total</span>
+            <span id="cartTotal">₦1,500.00</span>
+          </div>
+        </div>
+        <div class="cart-summary__footer">
+          <a href="checkout.html" class="btn btn-primary btn--full btn--lg" id="checkoutBtn">
+            Proceed to Checkout
+          </a>
+          <div style="text-align:center;font-size:var(--text-xs);color:var(--clr-muted);display:flex;align-items:center;justify-content:center;gap:var(--space-2);">
+            🔒 Secure Checkout
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Clear Cart Confirmation Modal -->
+<div class="modal-overlay" id="clearCartModal" role="dialog" aria-modal="true" aria-labelledby="clearCartTitle">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="clearCartTitle">Clear Cart?</h2>
+      <button class="modal__close" id="clearCartModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p style="color:var(--clr-mid);">This will remove all items from your cart. Are you sure?</p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelClearCart">Cancel</button>
+      <button class="btn btn-danger" id="confirmClearCart">Yes, Clear Cart</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" role="contentinfo" style="margin-top:var(--space-16);">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2024 KISSOWRA'S STORES.</span>
+      <span>🔒 All payments secured by Paystack</span>
+    </div>
+  </div>
+</footer>
+
+<div class="whatsapp-float">
+  <a class="whatsapp-float__btn" id="whatsappFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white"/></svg>
+  </a>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initCartPage());
+</script>
+</body>
+</html>

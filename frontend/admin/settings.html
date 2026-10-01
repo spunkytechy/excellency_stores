@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i data-feather="grid" class="sidebar-link__icon"></i> Dashboard</a>
+      <a href="products.html" class="sidebar-link"><i data-feather="package" class="sidebar-link__icon"></i> Products</a>
+      <a href="orders.html" class="sidebar-link"><i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link"><i data-feather="users" class="sidebar-link__icon"></i> Customers</a>
+      <a href="analytics.html" class="sidebar-link"><i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics</a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link"><i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints</a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link active" aria-current="page"><i data-feather="settings" class="sidebar-link__icon"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out"><i data-feather="log-out"></i></button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar"><i data-feather="menu"></i></button>
+        <div class="topbar-breadcrumb">Admin / <strong>Settings</strong></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" class="topbar-store-link" target="_blank">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-subtitle">Configure your store, payments, and notifications</p>
+        </div>
+        <button class="btn btn-primary" id="saveAllSettingsBtn">
+          <i data-feather="save" aria-hidden="true"></i> Save All Settings
+        </button>
+      </div>
+
+      <form id="settingsForm" novalidate>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
+
+          <!-- Store Information -->
+          <div class="form-card">
+            <div class="form-card__header">
+              <h2 class="form-card__title">🏪 Store Information</h2>
+            </div>
+            <div class="form-card__body" style="display:flex;flex-direction:column;gap:var(--space-4);">
+              <div class="form-group">
+                <label class="form-label" for="sStoreName">Store Name</label>
+                <input class="form-input" type="text" id="sStoreName" name="store_name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sStoreEmail">Store Email</label>
+                <input class="form-input" type="email" id="sStoreEmail" name="store_email" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sWhatsApp">WhatsApp Number</label>
+                <input class="form-input" type="tel" id="sWhatsApp" name="whatsapp_number" placeholder="e.g. 2348012345678" />
+                <div class="form-hint">International format, no + or spaces</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sPhone">Phone Number</label>
+                <input class="form-input" type="tel" id="sPhone" name="phone" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sAddress">Address</label>
+                <textarea class="form-textarea" id="sAddress" name="address" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notification Settings -->
+          <div class="form-card">
+            <div class="form-card__header">
+              <h2 class="form-card__title">🔔 Notifications</h2>
+            </div>
+            <div class="form-card__body" style="display:flex;flex-direction:column;gap:var(--space-5);">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);">
+                <div>
+                  <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">Order Notifications</div>
+                  <div style="font-size:var(--text-xs);color:var(--clr-muted);">Receive email when a new order is placed</div>
+                </div>
+                <label class="toggle-switch" aria-label="Toggle order notifications">
+                  <input type="checkbox" id="sOrderNotif" name="order_notifications" />
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);">
+                <div>
+                  <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">Complaint Notifications</div>
+                  <div style="font-size:var(--text-xs);color:var(--clr-muted);">Receive email when a complaint is submitted</div>
+                </div>
+                <label class="toggle-switch" aria-label="Toggle complaint notifications">
+                  <input type="checkbox" id="sComplaintNotif" name="complaint_notifications" />
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+              <div style="background:var(--clr-accent-light);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--text-xs);color:var(--clr-mid);margin-top:var(--space-4);">
+                <strong>Email credentials</strong> are managed via the <code>.env</code> file on the server. Contact your developer to update them.
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Settings -->
+          <div class="form-card">
+            <div class="form-card__header">
+              <h2 class="form-card__title">💳 Payment Settings</h2>
+            </div>
+            <div class="form-card__body" style="display:flex;flex-direction:column;gap:var(--space-4);">
+              <div class="form-group">
+                <label class="form-label" for="sPaymentProvider">Active Payment Provider</label>
+                <select class="form-select" id="sPaymentProvider" name="payment_provider">
+                  <option value="paystack">Paystack</option>
+                  <option value="flutterwave">Flutterwave</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sCurrency">Currency</label>
+                <input class="form-input" type="text" id="sCurrency" name="currency" placeholder="NGN" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sCurrencySymbol">Currency Symbol</label>
+                <input class="form-input" type="text" id="sCurrencySymbol" name="currency_symbol" placeholder="₦" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sPaystackPub">Paystack Public Key</label>
+                <input class="form-input" type="text" id="sPaystackPub" name="paystack_public_key" placeholder="pk_live_…" />
+                <div class="form-hint">Public key only — store secret key in .env on the server</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sFlutterwavePub">Flutterwave Public Key</label>
+                <input class="form-input" type="text" id="sFlutterwavePub" name="flutterwave_public_key" placeholder="FLWPUBK_…" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Settings -->
+          <div class="form-card">
+            <div class="form-card__header">
+              <h2 class="form-card__title">🚚 Delivery Settings</h2>
+            </div>
+            <div class="form-card__body" style="display:flex;flex-direction:column;gap:var(--space-4);">
+              <div class="form-group">
+                <label class="form-label" for="sDeliveryFee">Standard Delivery Fee (₦)</label>
+                <input class="form-input" type="number" id="sDeliveryFee" name="delivery_fee" min="0" step="0.01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sFreeThreshold">Free Delivery Threshold (₦)</label>
+                <input class="form-input" type="number" id="sFreeThreshold" name="free_delivery_threshold" min="0" step="0.01" />
+                <div class="form-hint">Set to 0 to disable free delivery</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account / Security -->
+          <div class="form-card" style="grid-column:1/-1;">
+            <div class="form-card__header">
+              <h2 class="form-card__title">🔒 Account & Security</h2>
+            </div>
+            <div class="form-card__body">
+              <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--space-4);">
+                <div class="form-group">
+                  <label class="form-label" for="currentPw">Current Password</label>
+                  <input class="form-input" type="password" id="currentPw" autocomplete="current-password" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="newPw">New Password</label>
+                    <input class="form-input" type="password" id="newPw" autocomplete="new-password" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="confirmPw">Confirm Password</label>
+                    <input class="form-input" type="password" id="confirmPw" autocomplete="new-password" />
+                  </div>
+                </div>
+                <button type="button" class="btn btn-ghost" style="width:fit-content;" id="changePasswordBtn">
+                  Update Password
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+
+<!-- Toggle switch styles (inline for self-containment) -->
+<style>
+.toggle-switch { position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; cursor:pointer; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+.toggle-track {
+  position:absolute; inset:0;
+  background:var(--clr-border);
+  border-radius:var(--radius-full);
+  transition:background var(--duration-normal);
+}
+.toggle-track::before {
+  content:'';
+  position:absolute;
+  height:18px; width:18px;
+  left:3px; bottom:3px;
+  background:white;
+  border-radius:50%;
+  transition:transform var(--duration-normal);
+  box-shadow:var(--shadow-sm);
+}
+.toggle-switch input:checked + .toggle-track { background:var(--clr-primary); }
+.toggle-switch input:checked + .toggle-track::before { transform:translateX(20px); }
+.toggle-switch input:focus + .toggle-track { box-shadow:0 0 0 3px rgba(139,26,74,0.2); }
+</style>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminSettings());
+</script>
+</body>
+</html>

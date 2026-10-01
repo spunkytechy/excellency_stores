@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products — KISSOWRA'S STORES Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-tagline">Admin Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i data-feather="grid" class="sidebar-link__icon"></i> Dashboard</a>
+      <a href="products.html" class="sidebar-link active" aria-current="page"><i data-feather="package" class="sidebar-link__icon"></i> Products</a>
+      <a href="orders.html" class="sidebar-link"><i data-feather="shopping-cart" class="sidebar-link__icon"></i> Orders</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="customers.html" class="sidebar-link"><i data-feather="users" class="sidebar-link__icon"></i> Customers</a>
+      <a href="analytics.html" class="sidebar-link"><i data-feather="bar-chart-2" class="sidebar-link__icon"></i> Analytics</a>
+      <div class="sidebar-section-label">Support</div>
+      <a href="complaints.html" class="sidebar-link"><i data-feather="message-circle" class="sidebar-link__icon"></i> Complaints</a>
+      <div class="sidebar-section-label">Config</div>
+      <a href="settings.html" class="sidebar-link"><i data-feather="settings" class="sidebar-link__icon"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="adminAvatar">A</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="adminName">Admin</div>
+          <div class="sidebar-user__role">Administrator</div>
+        </div>
+        <button class="sidebar-logout" id="logoutBtn" aria-label="Log out"><i data-feather="log-out"></i></button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="menuBtn" aria-label="Toggle sidebar"><i data-feather="menu"></i></button>
+        <div class="topbar-breadcrumb">Admin / <strong>Products</strong></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" class="topbar-store-link" target="_blank">View Store ↗</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Products</h1>
+          <p class="page-subtitle">Manage your product catalogue</p>
+        </div>
+        <button class="btn btn-primary" id="addProductBtn" aria-label="Add new product">
+          <i data-feather="plus" aria-hidden="true"></i> Add Product
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="table-card" style="margin-bottom:var(--space-5);">
+        <div style="padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+          <div class="search-bar" style="flex:1;min-width:200px;">
+            <span class="search-bar__icon"><i data-feather="search"></i></span>
+            <input type="search" id="productSearch" placeholder="Search products…" aria-label="Search products" />
+          </div>
+          <select class="sort-select" id="productStatusFilter" aria-label="Filter by status" style="min-width:130px;">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="draft">Draft</option>
+          </select>
+          <select class="sort-select" id="productCatFilter" aria-label="Filter by category" style="min-width:150px;">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div class="table-card">
+        <div class="table-card__header">
+          <h2 class="table-card__title">Product List</h2>
+          <span style="font-size:var(--text-xs);color:var(--clr-muted);" id="productTableCount"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" aria-label="Products list">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Added</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr><td colspan="7" style="text-align:center;padding:var(--space-8);color:var(--clr-muted);">Loading products…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="productPagination" style="padding:var(--space-4);border-top:1px solid var(--clr-border);"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add/Edit Product Modal -->
+<div class="modal-overlay" id="productModal" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="productModalTitle">Add Product</h2>
+      <button class="modal__close" id="productModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <form id="productForm" novalidate enctype="multipart/form-data">
+        <input type="hidden" id="productId" />
+        <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pName">Product Name <span class="required">*</span></label>
+              <input class="form-input" type="text" id="pName" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pCategory">Category <span class="required">*</span></label>
+              <input class="form-input" type="text" id="pCategory" required list="categoryList" placeholder="e.g. Lip Gloss" />
+              <datalist id="categoryList"></datalist>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pDescription">Description</label>
+            <textarea class="form-textarea" id="pDescription" rows="3"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pPrice">Price (₦) <span class="required">*</span></label>
+              <input class="form-input" type="number" id="pPrice" required min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pDiscountPrice">Discount Price (₦)</label>
+              <input class="form-input" type="number" id="pDiscountPrice" min="0" step="0.01" placeholder="Leave blank if no discount" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pStock">Stock Quantity <span class="required">*</span></label>
+              <input class="form-input" type="number" id="pStock" required min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pStatus">Status</label>
+              <select class="form-select" id="pStatus">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pVariants">Variants (comma-separated)</label>
+            <input class="form-input" type="text" id="pVariants" placeholder="e.g. Nude Bliss, Rose Gold, Berry Kiss" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Product Image</label>
+            <div class="image-upload" id="imageUploadArea">
+              <input type="file" id="pImage" accept="image/*" aria-label="Upload product image" />
+              <div class="image-upload__icon">📷</div>
+              <div class="image-upload__text">Click or drag to upload image</div>
+              <div class="image-upload__hint">JPG, PNG, WebP — max 5MB</div>
+            </div>
+            <div id="imagePreviewArea" style="margin-top:var(--space-3);"></div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelProductBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveProductBtn">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Price Update Modal -->
+<div class="modal-overlay" id="priceModal" role="dialog" aria-modal="true" aria-labelledby="priceModalTitle">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="priceModalTitle">Update Price</h2>
+      <button class="modal__close" id="priceModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p style="font-size:var(--text-sm);color:var(--clr-muted);margin-bottom:var(--space-5);" id="priceProductName"></p>
+      <input type="hidden" id="priceProductId" />
+      <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+        <div class="form-group">
+          <label class="form-label">Current Price</label>
+          <div style="padding:0.75em 1em;background:var(--clr-light);border-radius:var(--radius-md);font-weight:var(--fw-semi);" id="currentPriceDisplay"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPrice">New Price (₦) <span class="required">*</span></label>
+          <input class="form-input" type="number" id="newPrice" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newDiscountPrice">Discount Price (₦)</label>
+          <input class="form-input" type="number" id="newDiscountPrice" min="0" step="0.01" placeholder="Leave blank to remove discount" />
+        </div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelPriceBtn">Cancel</button>
+      <button class="btn btn-primary" id="savePriceBtn">Update Price</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteProductModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal__header">
+      <h2 class="modal__title" id="deleteTitle">Delete Product?</h2>
+      <button class="modal__close" id="deleteModalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p style="color:var(--clr-mid);">Are you sure you want to delete <strong id="deleteProductName"></strong>? This action cannot be undone.</p>
+      <input type="hidden" id="deleteProductId" />
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-ghost" id="cancelDeleteBtn">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">Delete Product</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAdminProducts());
+</script>
+</body>
+</html>

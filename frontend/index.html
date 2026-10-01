@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KISSOWRA'S STORES — Refined Lipgloss & Fashion</title>
+  <meta name="description" content="Shop premium lip gloss and fashion at KISSOWRA'S STORES. Elegance. Beauty. Modern African Fashion." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Feather Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+<!-- ── Announcement Bar ──────────────────────────────────── -->
+<div class="announcement-bar" role="banner">
+  <div class="announcement-bar__track" aria-hidden="true">
+    <span class="announcement-bar__item">Free delivery on orders over ₦20,000</span>
+    <span class="announcement-bar__item">New arrivals every Friday</span>
+    <span class="announcement-bar__item">Premium quality lip gloss & fashion</span>
+    <span class="announcement-bar__item">Fast delivery across Nigeria</span>
+    <span class="announcement-bar__item">Free delivery on orders over ₦20,000</span>
+    <span class="announcement-bar__item">New arrivals every Friday</span>
+    <span class="announcement-bar__item">Premium quality lip gloss & fashion</span>
+    <span class="announcement-bar__item">Fast delivery across Nigeria</span>
+  </div>
+</div>
+
+<!-- ── Navigation ────────────────────────────────────────── -->
+<nav class="site-nav" id="mainNav" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="KISSOWRA'S STORES home">
+      KISSOWRA'<span>S</span> STORES
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="nav-link active">Home</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
+      <li><a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a></li>
+      <li><a href="shop.html?cat=Dresses" class="nav-link">Fashion</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="nav-icon-btn" id="searchToggle" aria-label="Search">
+        <i data-feather="search" aria-hidden="true"></i>
+      </button>
+      <a href="cart.html" class="nav-icon-btn" aria-label="Shopping cart">
+        <i data-feather="shopping-bag" aria-hidden="true"></i>
+        <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="index.html" class="nav-link active">Home</a>
+  <a href="shop.html" class="nav-link">Shop</a>
+  <a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a>
+  <a href="shop.html?cat=Dresses" class="nav-link">Fashion</a>
+  <a href="#about" class="nav-link">About</a>
+  <a href="cart.html" class="btn btn-primary btn--sm">View Cart (<span id="mobileCartCount">0</span>)</a>
+</div>
+
+<!-- Search Overlay -->
+<div class="modal-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search products">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal__header">
+      <h2 class="modal__title">Search Products</h2>
+      <button class="modal__close" id="searchClose" aria-label="Close search">
+        <i data-feather="x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="search-bar" style="margin-bottom:var(--space-5);">
+        <span class="search-bar__icon"><i data-feather="search" aria-hidden="true"></i></span>
+        <input type="search" id="searchInput" placeholder="Search lip gloss, dresses, co-ords…" autocomplete="off" aria-label="Search" />
+      </div>
+      <div id="searchResults"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__orb hero__orb--1"></div>
+    <div class="hero__orb hero__orb--2"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero__content">
+      <p class="hero__eyebrow">New Collection 2024</p>
+      <h1 class="hero__title" id="heroTitle">
+        Lips That <em>Shine,</em><br>Fashion That <em>Speaks</em>
+      </h1>
+      <p class="hero__subtitle">
+        Discover KISSOWRA'S STORES — where premium lip gloss meets modern African fashion. Curated beauty for the bold woman.
+      </p>
+      <div class="hero__actions">
+        <a href="shop.html" class="btn btn-gold btn--lg">Shop Now</a>
+        <a href="shop.html?cat=Lip+Gloss" class="btn btn-secondary" style="color:white;border-color:rgba(255,255,255,0.5);">Explore Lip Gloss</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <i data-feather="chevron-down"></i>
+  </div>
+</section>
+
+<!-- ── Trust Bar ─────────────────────────────────────────── -->
+<section class="section--sm" style="background:var(--clr-accent-light);border-bottom:1px solid var(--clr-border);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-6);">
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <span style="font-size:1.75rem;">🚚</span>
+        <div>
+          <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">Fast Delivery</div>
+          <div style="font-size:var(--text-xs);color:var(--clr-muted);">Across Nigeria</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <span style="font-size:1.75rem;">✨</span>
+        <div>
+          <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">100% Authentic</div>
+          <div style="font-size:var(--text-xs);color:var(--clr-muted);">Premium Quality</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <span style="font-size:1.75rem;">🔒</span>
+        <div>
+          <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">Secure Payment</div>
+          <div style="font-size:var(--text-xs);color:var(--clr-muted);">Paystack Protected</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <span style="font-size:1.75rem;">💬</span>
+        <div>
+          <div style="font-weight:var(--fw-semi);font-size:var(--text-sm);">24/7 Support</div>
+          <div style="font-size:var(--text-xs);color:var(--clr-muted);">WhatsApp Us Anytime</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ─────────────────────────────────────────── -->
+<section class="section" id="categories">
+  <div class="container">
+    <div class="section-header">
+      <p class="label-tag">Browse By</p>
+      <h2 class="section-title">Shop Categories</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="category-grid">
+      <a href="shop.html?cat=Lip+Gloss" class="category-card" aria-label="Shop Lip Gloss">
+        <div class="category-card__img" style="background:linear-gradient(135deg,#fce4ec,#f48fb1);display:flex;align-items:center;justify-content:center;font-size:5rem;">💋</div>
+        <div class="category-card__overlay">
+          <span class="category-card__label">Lip Gloss</span>
+        </div>
+      </a>
+      <a href="shop.html?cat=Lip+Sets" class="category-card" aria-label="Shop Lip Sets">
+        <div class="category-card__img" style="background:linear-gradient(135deg,#fdf0f5,#f8bbd0);display:flex;align-items:center;justify-content:center;font-size:5rem;">💄</div>
+        <div class="category-card__overlay">
+          <span class="category-card__label">Lip Sets</span>
+        </div>
+      </a>
+      <a href="shop.html?cat=Dresses" class="category-card" aria-label="Shop Dresses">
+        <div class="category-card__img" style="background:linear-gradient(135deg,#e8eaf6,#c5cae9);display:flex;align-items:center;justify-content:center;font-size:5rem;">👗</div>
+        <div class="category-card__overlay">
+          <span class="category-card__label">Dresses</span>
+        </div>
+      </a>
+      <a href="shop.html?cat=Co-ords" class="category-card" aria-label="Shop Co-ords">
+        <div class="category-card__img" style="background:linear-gradient(135deg,#fff8e1,#ffe082);display:flex;align-items:center;justify-content:center;font-size:5rem;">👚</div>
+        <div class="category-card__overlay">
+          <span class="category-card__label">Co-ords</span>
+        </div>
+      </a>
+      <a href="shop.html" class="category-card" aria-label="Shop All Products">
+        <div class="category-card__img" style="background:linear-gradient(135deg,var(--clr-primary),var(--clr-primary-light));display:flex;align-items:center;justify-content:center;font-size:5rem;">🛍️</div>
+        <div class="category-card__overlay">
+          <span class="category-card__label">All Products</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Featured Products ──────────────────────────────────── -->
+<section class="section" style="background:var(--clr-accent-light);" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <p class="label-tag">Handpicked For You</p>
+      <h2 class="section-title">Featured Products</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="products-grid" id="featuredProducts">
+      <!-- Loaded via JS -->
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:var(--space-10);">
+      <a href="shop.html" class="btn btn-primary btn--lg">View All Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Promotional Banner ─────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="promo-banner">
+      <div class="promo-banner__content">
+        <p class="promo-banner__tag">Limited Time Offer</p>
+        <h2 class="promo-banner__title">Glow Up This Season 💋</h2>
+        <p class="promo-banner__sub">Get up to 30% off our bestselling lip gloss sets. Limited stock — don't miss out!</p>
+        <a href="shop.html?cat=Lip+Sets" class="btn btn-gold btn--lg">Shop the Sale</a>
+      </div>
+      <div style="font-size:8rem;opacity:0.3;position:relative;z-index:1;" aria-hidden="true">💋</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── New Arrivals ───────────────────────────────────────── -->
+<section class="section" style="background:var(--clr-white);" id="new-arrivals">
+  <div class="container">
+    <div class="section-header">
+      <p class="label-tag">Just Dropped</p>
+      <h2 class="section-title">New Arrivals</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="products-grid" id="newArrivals">
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Trending ───────────────────────────────────────────── -->
+<section class="section" style="background:var(--clr-accent-light);" id="trending">
+  <div class="container">
+    <div class="section-header">
+      <p class="label-tag">Hot Right Now</p>
+      <h2 class="section-title">Trending Products</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="products-grid" id="trendingProducts">
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:380px;border-radius:var(--radius-lg);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About / Brand Story ───────────────────────────────── -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="brand-story">
+      <div class="brand-story__image">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--clr-accent-light),var(--clr-primary));display:flex;align-items:center;justify-content:center;font-size:8rem;" aria-hidden="true">💋</div>
+        <div class="brand-story__accent" aria-hidden="true"></div>
+      </div>
+      <div>
+        <p class="label-tag">Our Story</p>
+        <h2 class="section-title" style="margin-top:var(--space-3);margin-bottom:var(--space-5);">
+          Born From a Love of Beauty & Fashion
+        </h2>
+        <p style="font-size:var(--text-md);color:var(--clr-mid);line-height:var(--lh-loose);margin-bottom:var(--space-5);">
+          KISSOWRA'S STORES was founded with a simple belief: every woman deserves to feel elegant, confident, and beautiful — without breaking the bank. We curate only the finest lip glosses and fashion pieces that celebrate modern African femininity.
+        </p>
+        <p style="font-size:var(--text-base);color:var(--clr-muted);line-height:var(--lh-loose);margin-bottom:var(--space-8);">
+          From high-shine lip glosses that stay all day to elegantly crafted dresses that turn heads — everything in our store is chosen with love and intention.
+        </p>
+        <div style="display:flex;gap:var(--space-6);flex-wrap:wrap;margin-bottom:var(--space-8);">
+          <div>
+            <div style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-primary);" id="productCountStat">50+</div>
+            <div style="font-size:var(--text-xs);color:var(--clr-muted);text-transform:uppercase;letter-spacing:var(--ls-wider);">Products</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-primary);">500+</div>
+            <div style="font-size:var(--text-xs);color:var(--clr-muted);text-transform:uppercase;letter-spacing:var(--ls-wider);">Happy Customers</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-primary);">4.9★</div>
+            <div style="font-size:var(--text-xs);color:var(--clr-muted);text-transform:uppercase;letter-spacing:var(--ls-wider);">Average Rating</div>
+          </div>
+        </div>
+        <a href="shop.html" class="btn btn-primary btn--lg">Discover Our Collection</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ───────────────────────────────────────── -->
+<section class="section" style="background:linear-gradient(180deg,var(--clr-accent-light),var(--clr-white));">
+  <div class="container">
+    <div class="section-header">
+      <p class="label-tag">What They Say</p>
+      <h2 class="section-title">Customer Love</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-card__text">"The Kissowra Gloss Luxe is absolutely amazing! It stays on all day and the shine is unbelievable. I've ordered three times already!"</p>
+        <div class="testimonial-card__author">— Adaeze O., Lagos</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-card__text">"The silk dress I ordered fits perfectly and the quality is top-notch. KISSOWRA'S STORES is my go-to for everything fashion now."</p>
+        <div class="testimonial-card__author">— Fatima K., Abuja</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-card__text">"Fast delivery, beautiful packaging, and the products are exactly as described. This is how online shopping should feel!"</p>
+        <div class="testimonial-card__author">— Chisom N., Port Harcourt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA Section ────────────────────────────────────────── -->
+<section class="section" style="background:var(--clr-dark);text-align:center;">
+  <div class="container" style="max-width:640px;">
+    <p class="label-tag" style="color:var(--clr-secondary-light);">Ready to Glow Up?</p>
+    <h2 style="font-family:var(--font-display);font-size:clamp(var(--text-2xl),5vw,var(--text-4xl));font-weight:var(--fw-bold);color:var(--clr-white);margin:var(--space-4) 0 var(--space-4);">
+      Your Perfect Look Awaits
+    </h2>
+    <p style="color:rgba(255,255,255,0.65);font-size:var(--text-md);margin-bottom:var(--space-8);line-height:var(--lh-loose);">
+      Shop our latest collection of lip gloss and fashion. New arrivals every week.
+    </p>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;">
+      <a href="shop.html" class="btn btn-gold btn--lg">Shop Now</a>
+      <a href="shop.html?cat=Lip+Gloss" class="btn btn-secondary" style="color:white;border-color:rgba(255,255,255,0.3);">Lip Gloss</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">KISSOWRA'<span>S</span> STORES</div>
+        <p class="footer-tagline">Premium lip gloss and fashion for the modern African woman. Beauty, elegance, and confidence — delivered to your door.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Instagram">📷</a>
+          <a href="#" class="footer-social" aria-label="Facebook">📘</a>
+          <a href="#" class="footer-social" aria-label="TikTok">🎵</a>
+          <a href="#" class="footer-social" aria-label="Twitter/X">🐦</a>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer-heading">Shop</h3>
+        <ul class="footer-links">
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html?cat=Lip+Gloss">Lip Gloss</a></li>
+          <li><a href="shop.html?cat=Lip+Sets">Lip Sets</a></li>
+          <li><a href="shop.html?cat=Dresses">Dresses</a></li>
+          <li><a href="shop.html?cat=Co-ords">Co-ords</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Help</h3>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="cart.html">My Cart</a></li>
+          <li><a href="#" id="footerComplaintBtn">Submit Complaint</a></li>
+          <li><a href="login.html">Admin Login</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact</h3>
+        <ul class="footer-links">
+          <li id="footerWhatsApp"><a href="#">WhatsApp Us</a></li>
+          <li id="footerEmail"><a href="#">Email Us</a></li>
+          <li>Lagos, Nigeria</li>
+          <li>Mon–Sat: 8am–8pm</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2024 KISSOWRA'S STORES. All rights reserved.</span>
+      <span>Crafted with ❤️ in Nigeria</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Floating WhatsApp & Complaint ────────────────────── -->
+<div class="whatsapp-float" role="complementary" aria-label="Contact options">
+  <button class="complaint-btn" id="complaintFloat" aria-label="Submit a complaint">
+    💬 Complaints / Need Help?
+  </button>
+  <a class="whatsapp-float__btn" id="whatsappFloat" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</div>
+
+<!-- ── Complaint Modal ────────────────────────────────────── -->
+<div class="modal-overlay" id="complaintModal" role="dialog" aria-modal="true" aria-labelledby="complaintModalTitle">
+  <div class="modal">
+    <div class="modal__header">
+      <h2 class="modal__title" id="complaintModalTitle">Submit a Complaint</h2>
+      <button class="modal__close" id="complaintModalClose" aria-label="Close"><i data-feather="x"></i></button>
+    </div>
+    <div class="modal__body">
+      <form id="complaintForm" novalidate>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <div class="form-group">
+            <label class="form-label" for="cName">Full Name <span class="required">*</span></label>
+            <input class="form-input" type="text" id="cName" name="customer_name" required autocomplete="name" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cPhone">Phone <span class="required">*</span></label>
+              <input class="form-input" type="tel" id="cPhone" name="phone" required autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cEmail">Email</label>
+              <input class="form-input" type="email" id="cEmail" name="email" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cOrderId">Order Number (if applicable)</label>
+            <input class="form-input" type="text" id="cOrderId" name="order_id" placeholder="KWS-XXXXX" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cComplaint">Your Message <span class="required">*</span></label>
+            <textarea class="form-textarea" id="cComplaint" name="complaint" rows="4" required>Hello KISSOWRA'S STORES, I would like to make a complaint.</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn--full" id="complaintSubmitBtn">Submit Complaint</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast Container ────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script>
+  feather.replace();
+
+  // Load homepage product sections
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadSection('featuredProducts', '/api/products?limit=4&sort=newest');
+    await loadSection('newArrivals', '/api/products?limit=4&sort=newest');
+    await loadSection('trendingProducts', '/api/products?limit=3');
+    loadStoreSettings();
+  });
+
+  async function loadSection(containerId, url) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      if (data.success && data.products.length) {
+        container.innerHTML = data.products.map(p => renderProductCard(p)).join('');
+      } else {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state__icon">🛍️</div><p class="empty-state__title">Coming Soon</p></div>';
+      }
+    } catch {
+      container.innerHTML = '<div class="empty-state"><div class="empty-state__icon">⚠️</div><p class="empty-state__title">Could not load products</p></div>';
+    }
+  }
+
+  async function loadStoreSettings() {
+    try {
+      const res  = await fetch('/api/settings/public');
+      const data = await res.json();
+      if (data.success && data.settings) {
+        const s = data.settings;
+        // WhatsApp
+        const wa = document.getElementById('whatsappFloat');
+        if (wa && s.whatsapp_number) {
+          wa.href = `https://wa.me/${s.whatsapp_number}?text=Hello%20KISSOWRA'S%20STORES%2C%20I'd%20like%20to%20order.`;
+        }
+        const footerWa = document.querySelector('#footerWhatsApp a');
+        if (footerWa && s.whatsapp_number) {
+          footerWa.href = `https://wa.me/${s.whatsapp_number}`;
+        }
+      }
+    } catch {}
+  }
+</script>
+</body>
+</html>
