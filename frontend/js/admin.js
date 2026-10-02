@@ -914,89 +914,124 @@ async function initAdminAnalytics() {
 }
 
 // ── COMPLAINTS PAGE ────────────────────────────────────────
+let adminComplaintsCurrentPage = 1;
+let adminComplaintsSearchTimer;
+
+async function loadComplaintStats() {
+  try {
+    const data = await apiFetch('/api/complaints?limit=1000');
+    if (!data.success) return;
+    const complaints = data.complaints || [];
+    setValue('cStatNew',      complaints.filter(c => c.status === 'new').length);
+    setValue('cStatReview',   complaints.filter(c => c.status === 'in_review').length);
+    setValue('cStatResolved', complaints.filter(c => c.status === 'resolved').length);
+    setValue('cStatClosed',   complaints.filter(c => c.status === 'closed').length);
+  } catch {}
+}
+
+async function loadAdminComplaints() {
+  const tbody   = document.getElementById('complaintsTableBody');
+  const countEl = document.getElementById('complaintTableCount');
+  const pagEl   = document.getElementById('complaintPagination');
+
+  if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-8);"><div class="spinner" style="margin:auto;"></div></td></tr>';
+
+  const qs     = new URLSearchParams({ page: adminComplaintsCurrentPage, limit: 15 });
+  const search = document.getElementById('complaintSearch')?.value.trim();
+  const status = document.getElementById('complaintStatusFilter')?.value;
+  if (search) qs.set('search', search);
+  if (status) qs.set('status', status);
+
+  try {
+    const data = await apiFetch(`/api/complaints?${qs}`);
+    if (!data.success) throw new Error();
+    if (countEl) countEl.textContent = `${data.total} complaints`;
+
+    if (!data.complaints.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-10);color:var(--clr-muted);">No complaints found.</td></tr>';
+      if (pagEl) pagEl.innerHTML = '';
+      return;
+    }
+
+    tbody.innerHTML = data.complaints.map(c => {
+      const snippet = c.complaint.length > 60 ? c.complaint.substring(0, 60) + '…' : c.complaint;
+      return `
+      <tr>
+        <td style="font-size:var(--text-xs);color:var(--clr-muted);">${c.id.substring(0, 8)}…</td>
+        <td><strong>${escHtml(c.customer_name)}</strong></td>
+        <td>${escHtml(c.phone)}</td>
+        <td>${c.order_id ? `<span style="color:var(--clr-primary);">${escHtml(c.order_id)}</span>` : '—'}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(snippet)}</td>
+        <td style="font-size:var(--text-xs);color:var(--clr-muted);">${formatDate(c.created_at)}</td>
+        <td>${statusBadge(c.status)}</td>
+        <td>
+          <div class="table-action-group">
+            <button class="btn btn-ghost btn--sm" onclick="viewComplaintDetail('${c.id}')" title="View">👁️</button>
+            <button class="btn btn-primary btn--sm" onclick="openCStatusModal('${c.id}','${c.status}')" title="Update">🔄</button>
+            <button class="btn btn-ghost btn--sm" onclick="deleteComplaint('${c.id}')" title="Delete" style="color:var(--clr-error);">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+
+    renderPagination(pagEl, adminComplaintsCurrentPage, Math.ceil(data.total / 15), (p) => {
+      adminComplaintsCurrentPage = p;
+      loadAdminComplaints();
+    });
+  } catch {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--clr-error);padding:var(--space-8);">Failed to load complaints.</td></tr>';
+  }
+}
+
 async function initAdminComplaints() {
   if (!initAdminSession()) return;
 
-  let currentPage = 1;
-  let searchTimer;
+  adminComplaintsCurrentPage = 1;
 
   await loadAdminComplaints();
   await loadComplaintStats();
 
   document.getElementById('complaintSearch')?.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => { currentPage = 1; loadAdminComplaints(); }, 350);
+    clearTimeout(adminComplaintsSearchTimer);
+    adminComplaintsSearchTimer = setTimeout(() => {
+      adminComplaintsCurrentPage = 1;
+      loadAdminComplaints();
+    }, 350);
   });
-  document.getElementById('complaintStatusFilter')?.addEventListener('change', () => { currentPage = 1; loadAdminComplaints(); });
+  document.getElementById('complaintStatusFilter')?.addEventListener('change', () => {
+    adminComplaintsCurrentPage = 1;
+    loadAdminComplaints();
+  });
 
   document.getElementById('complaintModalClose')?.addEventListener('click', () => closeModal('complaintModal'));
   document.getElementById('closeComplaintModal')?.addEventListener('click', () => closeModal('complaintModal'));
   document.getElementById('cStatusClose')?.addEventListener('click',        () => closeModal('complaintStatusModal'));
   document.getElementById('cancelCStatusBtn')?.addEventListener('click',    () => closeModal('complaintStatusModal'));
   document.getElementById('saveCStatusBtn')?.addEventListener('click',      () => saveComplaintStatus());
+}
 
-  async function loadComplaintStats() {
-    try {
-      const data = await apiFetch('/api/complaints?limit=1000');
-      if (!data.success) return;
-      const complaints = data.complaints || [];
-      setValue('cStatNew',      complaints.filter(c => c.status === 'new').length);
-      setValue('cStatReview',   complaints.filter(c => c.status === 'in_review').length);
-      setValue('cStatResolved', complaints.filter(c => c.status === 'resolved').length);
-      setValue('cStatClosed',   complaints.filter(c => c.status === 'closed').length);
-    } catch {}
-  }
+window.loadAdminComplaints = loadAdminComplaints;
+window.loadComplaintStats = loadComplaintStats;
+window.deleteComplaint = deleteComplaint;
+window.viewComplaintDetail = viewComplaintDetail;
+window.openCStatusModal = openCStatusModal;
 
-  async function loadAdminComplaints() {
-    const tbody   = document.getElementById('complaintsTableBody');
-    const countEl = document.getElementById('complaintTableCount');
-    const pagEl   = document.getElementById('complaintPagination');
+async function deleteComplaint(complaintId) {
+  try {
+    const data = await apiFetch(`/api/complaints/${complaintId}`, { method: 'DELETE' });
+    if (!data.success) throw new Error(data.message || 'Delete failed.');
 
-    if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-8);"><div class="spinner" style="margin:auto;"></div></td></tr>';
-
-    const qs     = new URLSearchParams({ page: currentPage, limit: 15 });
-    const search = document.getElementById('complaintSearch')?.value.trim();
-    const status = document.getElementById('complaintStatusFilter')?.value;
-    if (search) qs.set('search', search);
-    if (status) qs.set('status', status);
-
-    try {
-      const data = await apiFetch(`/api/complaints?${qs}`);
-      if (!data.success) throw new Error();
-      if (countEl) countEl.textContent = `${data.total} complaints`;
-
-      if (!data.complaints.length) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-10);color:var(--clr-muted);">No complaints found.</td></tr>';
-        if (pagEl) pagEl.innerHTML = '';
-        return;
-      }
-
-      tbody.innerHTML = data.complaints.map(c => {
-        const snippet = c.complaint.length > 60 ? c.complaint.substring(0, 60) + '…' : c.complaint;
-        return `
-        <tr>
-          <td style="font-size:var(--text-xs);color:var(--clr-muted);">${c.id.substring(0, 8)}…</td>
-          <td><strong>${escHtml(c.customer_name)}</strong></td>
-          <td>${escHtml(c.phone)}</td>
-          <td>${c.order_id ? `<span style="color:var(--clr-primary);">${escHtml(c.order_id)}</span>` : '—'}</td>
-          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(snippet)}</td>
-          <td style="font-size:var(--text-xs);color:var(--clr-muted);">${formatDate(c.created_at)}</td>
-          <td>${statusBadge(c.status)}</td>
-          <td>
-            <div class="table-action-group">
-              <button class="btn btn-ghost btn--sm" onclick="viewComplaintDetail('${c.id}')" title="View">👁️</button>
-              <button class="btn btn-primary btn--sm" onclick="openCStatusModal('${c.id}','${c.status}')" title="Update">🔄</button>
-            </div>
-          </td>
-        </tr>`;
-      }).join('');
-
-      renderPagination(pagEl, currentPage, Math.ceil(data.total / 15), (p) => { currentPage = p; loadAdminComplaints(); });
-    } catch {
-      if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--clr-error);padding:var(--space-8);">Failed to load complaints.</td></tr>';
-    }
+    showToast('Complaint deleted.', 'success');
+    closeModal('complaintModal');
+    await loadAdminComplaints();
+  } catch (err) {
+    showToast(err.message || 'Network error.', 'error');
   }
 }
+
+window.deleteComplaint = deleteComplaint;
+window.viewComplaintDetail = viewComplaintDetail;
+window.openCStatusModal = openCStatusModal;
 
 async function viewComplaintDetail(complaintId) {
   openModal('complaintModal');
@@ -1015,6 +1050,12 @@ async function viewComplaintDetail(complaintId) {
     if (updateBtn) {
       updateBtn.style.display = '';
       updateBtn.onclick = () => { closeModal('complaintModal'); openCStatusModal(c.id, c.status); };
+    }
+
+    const deleteBtn = document.getElementById('deleteComplaintBtn');
+    if (deleteBtn) {
+      deleteBtn.style.display = '';
+      deleteBtn.onclick = () => deleteComplaint(c.id);
     }
 
     body.innerHTML = `

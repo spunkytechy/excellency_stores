@@ -85,4 +85,18 @@ function updateComplaint(req, res) {
   }
 }
 
-module.exports = { createComplaint, getComplaints, updateComplaint };
+function deleteComplaint(req, res) {
+  try {
+    const db = getDb();
+    const complaint = db.prepare('SELECT * FROM complaints WHERE id = ?').get(req.params.id);
+    if (!complaint) return res.status(404).json({ success: false, message: 'Complaint not found.' });
+
+    db.prepare('DELETE FROM complaints WHERE id = ?').run(req.params.id);
+    res.json({ success: true, message: 'Complaint deleted.' });
+  } catch (err) {
+    console.error('deleteComplaint error:', err);
+    res.status(500).json({ success: false, message: 'Server error.' });
+  }
+}
+
+module.exports = { createComplaint, getComplaints, updateComplaint, deleteComplaint };

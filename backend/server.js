@@ -65,6 +65,11 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: "KISSOWRA'S BEAUTY API is running.", timestamp: new Date() });
 });
 
+// Keep unknown API requests from falling through to the storefront HTML.
+app.use('/api', (req, res) => {
+  res.status(404).json({ success: false, message: 'API route not found.' });
+});
+
 // ── SPA fallback — serve frontend for all non-API routes ──
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));

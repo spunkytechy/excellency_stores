@@ -291,14 +291,7 @@ function initComplaintModal() {
       if (data.success) {
         closeModal('complaintModal');
         form.reset();
-        showToast('Complaint submitted. We\'ll get back to you shortly.', 'success');
-
-        // Also open WhatsApp if number is configured
-        const cfg = await loadStoreConfig();
-        if (cfg?.whatsapp_number) {
-          const msg = `Hello KISSOWRA'S BEAUTY, I would like to make a complaint.${body.order_id ? ` Order: ${body.order_id}` : ''}`;
-          window.open(buildWhatsAppUrl(cfg.whatsapp_number, msg), '_blank', 'noopener');
-        }
+        showToast('Complaint submitted successfully. The admin has been notified by email and dashboard.', 'success');
       } else {
         showToast(data.message || 'Submission failed.', 'error');
       }
@@ -349,11 +342,28 @@ document.addEventListener('DOMContentLoaded', () => {
 // ── API Helper ─────────────────────────────────────────────
 async function apiFetch(url, options = {}) {
   const token = localStorage.getItem('kws_admin_token');
-  const headers = { 'Content-Type': 'application/json', ...options.headers };
+  const headers = { 'Content-Type': 'application/json', Accept: 'application/json', ...options.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const res = await fetch(url, { ...options, headers });
-  const data = await res.json();
+
+  const responseText = await res.text();
+  let data = {};
+
+  if (responseText) {
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error('The server returned invalid JSON.');
+      }
+    } else if (responseText.trim().startsWith('<')) {
+      throw new Error('The server returned an HTML page instead of JSON. Please verify the app is running and the admin API route is available.');
+    } else {
+      data = { message: responseText };
+    }
+  }
 
   if (res.status === 401 || res.status === 403) {
     // Token expired or invalid — redirect to login
@@ -362,6 +372,10 @@ async function apiFetch(url, options = {}) {
       localStorage.removeItem('kws_admin_user');
       window.location.href = '../login.html';
     }
+  }
+
+  if (!res.ok) {
+    throw new Error(data.message || 'Request failed.');
   }
 
   return data;

@@ -4,6 +4,7 @@
 const { createTransporter } = require('../config/email');
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL || 'owner@kissowrastores.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || OWNER_EMAIL;
 const STORE_NAME  = "KISSOWRA'S BEAUTY";
 
 // ── Helper: format currency ────────────────────────────────
@@ -108,7 +109,7 @@ async function sendComplaintAlert(complaint) {
   try {
     await transporter.sendMail({
       from: `"${STORE_NAME}" <${process.env.EMAIL_USER}>`,
-      to: OWNER_EMAIL,
+      to: ADMIN_EMAIL,
       subject: `[COMPLAINT] From ${complaint.customer_name}`,
       html
     });
