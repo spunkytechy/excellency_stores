@@ -88,7 +88,7 @@ async function initializeFlutterwave({ email, amount, reference, name, phone, me
     customer: { email, name, phonenumber: phone },
     meta: metadata,
     customizations: {
-      title: "KISSOWRA'S STORES",
+      title: "KISSOWRA'S BEAUTY",
       logo: `${process.env.FRONTEND_URL}/images/logo.png`
     }
   });

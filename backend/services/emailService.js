@@ -4,7 +4,7 @@
 const { createTransporter } = require('../config/email');
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL || 'owner@kissowrastores.com';
-const STORE_NAME  = "KISSOWRA'S STORES";
+const STORE_NAME  = "KISSOWRA'S BEAUTY";
 
 // ── Helper: format currency ────────────────────────────────
 function fmt(amount) {

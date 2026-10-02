@@ -5,6 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
 
+const PRODUCT_CATEGORIES = ['Lipgloss', 'Lip set', 'Clothes', 'Shoes', 'Handbags'];
+
 // ── GET /api/products ──────────────────────────────────────
 function getProducts(req, res) {
   try {
@@ -65,11 +67,7 @@ function getProducts(req, res) {
 // ── GET /api/products/categories ──────────────────────────
 function getCategories(req, res) {
   try {
-    const db = getDb();
-    const rows = db.prepare(
-      "SELECT DISTINCT category FROM products WHERE status = 'active' ORDER BY category"
-    ).all();
-    res.json({ success: true, categories: rows.map(r => r.category) });
+    res.json({ success: true, categories: PRODUCT_CATEGORIES });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error.' });
   }
@@ -109,6 +107,9 @@ function createProduct(req, res) {
 
     if (!name || !category || !price) {
       return res.status(400).json({ success: false, message: 'Name, category, and price are required.' });
+    }
+    if (!PRODUCT_CATEGORIES.includes(category)) {
+      return res.status(400).json({ success: false, message: 'Choose a valid product category.' });
     }
 
     const id = uuidv4();
@@ -152,6 +153,11 @@ function updateProduct(req, res) {
       stock, variants, status
     } = req.body;
 
+    const nextCategory = category || product.category;
+    if (!PRODUCT_CATEGORIES.includes(nextCategory)) {
+      return res.status(400).json({ success: false, message: 'Choose a valid product category.' });
+    }
+
     const imagePath = req.file ? `/uploads/${req.file.filename}` : product.image;
 
     db.prepare(`
@@ -163,7 +169,7 @@ function updateProduct(req, res) {
     `).run(
       name || product.name,
       description !== undefined ? description : product.description,
-      category || product.category,
+      nextCategory,
       price !== undefined ? parseFloat(price) : product.price,
       discount_price !== undefined ? (discount_price ? parseFloat(discount_price) : null) : product.discount_price,
       stock !== undefined ? parseInt(stock) : product.stock,

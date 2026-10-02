@@ -1,7 +1,7 @@
 {
   "name": "kissowras-stores",
   "version": "1.0.0",
-  "description": "KISSOWRA'S STORES - Refined Lipgloss & Fashion E-Commerce Platform",
+  "description": "KISSOWRA'S BEAUTY - Refined Lipgloss & Fashion E-Commerce Platform",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -28,6 +28,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "author": "KISSOWRA'S STORES",
+  "author": "KISSOWRA'S BEAUTY",
   "license": "ISC"
 }

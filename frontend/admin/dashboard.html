@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — KISSOWRA'S STORES Admin</title>
+  <title>Dashboard — KISSOWRA'S BEAUTY Admin</title>
   <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,7 +18,7 @@
   <!-- Sidebar -->
   <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
     <div class="sidebar-header">
-      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-logo"><img src="../images/WhatsApp%20Image%202026-09-30%20at%2021.27.20.jpeg" alt="Kissowra Beauty" class="brand-logo-image" /><span class="brand-logo-name">KISSOWRA'S BEAUTY</span></div>
       <div class="sidebar-tagline">Admin Portal</div>
     </div>
     <nav class="sidebar-nav">
@@ -87,9 +87,14 @@
           <h1 class="page-title">Dashboard</h1>
           <p class="page-subtitle">Welcome back! Here's what's happening in your store.</p>
         </div>
-        <button class="btn btn-ghost btn--sm" id="refreshDashboard" aria-label="Refresh data">
-          <i data-feather="refresh-cw" aria-hidden="true"></i> Refresh
-        </button>
+        <div style="display:flex;align-items:center;gap:var(--space-3);">
+          <a class="btn btn-ghost btn--sm" href="../account.html">
+            <i data-feather="briefcase" aria-hidden="true"></i> Store Management
+          </a>
+          <button class="btn btn-ghost btn--sm" id="refreshDashboard" aria-label="Refresh data">
+            <i data-feather="refresh-cw" aria-hidden="true"></i> Refresh
+          </button>
+        </div>
       </div>
 
       <!-- Stat Cards -->

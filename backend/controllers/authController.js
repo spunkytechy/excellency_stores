@@ -58,7 +58,7 @@ async function register(req, res) {
 
     res.status(201).json({
       success: true,
-      message: 'Account created successfully! Welcome to KISSOWRA\'S STORES.',
+      message: 'Account created successfully! Welcome to KISSOWRA\'S BEAUTY.',
       token,
       user: safeUser(user)
     });
@@ -69,7 +69,15 @@ async function register(req, res) {
 }
 
 // ── POST /api/auth/login ───────────────────────────────────
-async function login(req, res) {
+function login(req, res) {
+  return authenticate(req, res);
+}
+
+function adminLogin(req, res) {
+  return authenticate(req, res, 'admin');
+}
+
+async function authenticate(req, res, requiredRole = null) {
   try {
     const { email, password } = req.body;
 
@@ -80,7 +88,7 @@ async function login(req, res) {
     const db   = getDb();
     const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase().trim());
 
-    if (!user) {
+    if (!user || (requiredRole && user.role !== requiredRole)) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
@@ -249,7 +257,7 @@ async function sendWelcomeEmail(user) {
   const html = `
   <div style="font-family:Georgia,serif;max-width:580px;margin:auto;background:#fff;border:1px solid #f0e6ec;">
     <div style="background:#8b1a4a;padding:28px;text-align:center;">
-      <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:2px;">KISSOWRA'S STORES</h1>
+      <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:2px;">KISSOWRA'S BEAUTY</h1>
       <p style="color:#f7c5d9;margin:6px 0 0;font-size:14px;">Welcome to the family! 💋</p>
     </div>
     <div style="padding:32px;">
@@ -264,14 +272,14 @@ async function sendWelcomeEmail(user) {
       <p style="color:#999;font-size:13px;">If you didn't create this account, you can safely ignore this email.</p>
     </div>
     <div style="background:#fdf0f5;padding:14px;text-align:center;font-size:11px;color:#aaa;">
-      © ${new Date().getFullYear()} KISSOWRA'S STORES · Beauty · Fashion · Elegance
+      © ${new Date().getFullYear()} KISSOWRA'S BEAUTY · Beauty · Fashion · Elegance
     </div>
   </div>`;
 
   await transporter.sendMail({
-    from: `"KISSOWRA'S STORES" <${process.env.EMAIL_USER}>`,
+    from: `"KISSOWRA'S BEAUTY" <${process.env.EMAIL_USER}>`,
     to:   user.email,
-    subject: `Welcome to KISSOWRA'S STORES, ${user.name}! 💋`,
+    subject: `Welcome to KISSOWRA'S BEAUTY, ${user.name}! 💋`,
     html
   });
 }
@@ -281,7 +289,7 @@ async function sendResetEmail(user, resetUrl) {
   const html = `
   <div style="font-family:Georgia,serif;max-width:580px;margin:auto;background:#fff;border:1px solid #f0e6ec;">
     <div style="background:#8b1a4a;padding:28px;text-align:center;">
-      <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:2px;">KISSOWRA'S STORES</h1>
+      <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:2px;">KISSOWRA'S BEAUTY</h1>
       <p style="color:#f7c5d9;margin:6px 0 0;font-size:14px;">Password Reset Request</p>
     </div>
     <div style="padding:32px;">
@@ -297,16 +305,16 @@ async function sendResetEmail(user, resetUrl) {
       <p style="color:#bbb;font-size:11px;word-break:break-all;">Or copy this link: ${resetUrl}</p>
     </div>
     <div style="background:#fdf0f5;padding:14px;text-align:center;font-size:11px;color:#aaa;">
-      © ${new Date().getFullYear()} KISSOWRA'S STORES
+      © ${new Date().getFullYear()} KISSOWRA'S BEAUTY
     </div>
   </div>`;
 
   await transporter.sendMail({
-    from: `"KISSOWRA'S STORES" <${process.env.EMAIL_USER}>`,
+    from: `"KISSOWRA'S BEAUTY" <${process.env.EMAIL_USER}>`,
     to:   user.email,
-    subject: 'Reset your KISSOWRA\'S STORES password',
+    subject: 'Reset your KISSOWRA\'S BEAUTY password',
     html
   });
 }
 
-module.exports = { register, login, me, logout, forgotPassword, resetPassword, changePassword, updateProfile };
+module.exports = { register, login, adminLogin, me, logout, forgotPassword, resetPassword, changePassword, updateProfile };

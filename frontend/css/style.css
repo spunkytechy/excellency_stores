@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — Global Design System
+   KISSOWRA'S BEAUTY — Global Design System
    Premium Lipgloss & Fashion E-Commerce
    ============================================================ */
 
@@ -370,12 +370,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-logo {
+  display: flex;
+  align-items: center;
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: var(--fw-bold);
   color: var(--clr-primary);
   letter-spacing: 0.03em;
   white-space: nowrap;
+}
+
+.brand-logo-image {
+  display: block;
+  object-fit: contain;
+}
+
+.brand-logo-name {
+  color: inherit;
+  white-space: nowrap;
+}
+
+.nav-logo .brand-logo-image {
+  width: 100px;
+  height: 50px;
+}
+
+.nav-logo .brand-logo-name {
+  color: var(--clr-primary);
+  font-size: var(--text-sm);
+  letter-spacing: 0;
 }
 
 .nav-logo span {
@@ -1294,11 +1317,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: var(--fw-bold);
   color: var(--clr-white);
   margin-bottom: var(--space-4);
+}
+
+.footer-logo .brand-logo-image {
+  width: 120px;
+  height: 60px;
 }
 
 .footer-logo span { color: var(--clr-secondary); }
@@ -1605,6 +1636,12 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 480px) {
   :root { --nav-height: 64px; }
+
+  .nav-inner { gap: var(--space-2); }
+  .nav-logo { gap: var(--space-1); font-size: var(--text-xs); }
+  .nav-logo .brand-logo-image { width: 64px; height: 32px; }
+  .nav-logo .brand-logo-name { font-size: 0.58rem; }
+  .nav-actions { gap: var(--space-1); }
 
   .products-grid {
     grid-template-columns: repeat(2, 1fr);

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Account — KISSOWRA'S STORES</title>
-  <meta name="description" content="Manage your KISSOWRA'S STORES account, view orders and update your profile." />
+  <title>My Account — KISSOWRA'S BEAUTY</title>
+  <meta name="description" content="Manage your KISSOWRA'S BEAUTY account, view orders and update your profile." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
@@ -58,6 +58,7 @@
     }
     .account-nav-link:hover    { color: var(--clr-primary); background: var(--clr-accent-light); }
     .account-nav-link.active   { color: var(--clr-primary); background: rgba(139,26,74,.07); font-weight: var(--fw-semi); }
+    .account-nav-link[hidden]  { display: none; }
     .account-nav-link--danger  { color: var(--clr-error) !important; }
     .account-nav-link--danger:hover { background: var(--clr-error-bg) !important; }
 
@@ -103,7 +104,7 @@
 <!-- Nav -->
 <nav class="site-nav scrolled" id="mainNav">
   <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">KISSOWRA'<span>S</span> STORES</a>
+    <a href="index.html" class="nav-logo" aria-label="Kissowra Beauty home"><img src="images/WhatsApp%20Image%202026-09-30%20at%2021.27.20.jpeg" alt="Kissowra Beauty" class="brand-logo-image" /><span class="brand-logo-name">KISSOWRA'S BEAUTY</span></a>
     <ul class="nav-links">
       <li><a href="index.html" class="nav-link">Home</a></li>
       <li><a href="shop.html"  class="nav-link">Shop</a></li>
@@ -159,7 +160,10 @@
           <button class="account-nav-link" data-panel="security">
             <i data-feather="lock" style="width:16px;height:16px;"></i> Security
           </button>
-          <hr style="border:none;border-top:1px solid var(--clr-border);margin:var(--space-2) 0;" />
+          <button class="account-nav-link" id="storeManagementNav" type="button" hidden>
+            <i data-feather="briefcase" style="width:16px;height:16px;"></i> Store Management
+          </button>
+          <hr id="customerAccountDivider" style="border:none;border-top:1px solid var(--clr-border);margin:var(--space-2) 0;" />
           <button class="account-nav-link account-nav-link--danger" id="accountLogoutBtn">
             <i data-feather="log-out" style="width:16px;height:16px;"></i> Sign Out
           </button>
@@ -261,6 +265,47 @@
                   Update Password
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin-only store management panel -->
+        <div class="account-panel" id="panel-store-management">
+          <div class="panel-card">
+            <div class="panel-card__header">
+              <h2 class="panel-card__title">Store Management</h2>
+            </div>
+            <div class="panel-card__body" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--space-3);">
+              <a class="btn btn-primary" style="justify-content:flex-start;" href="admin/products.html?action=add">
+                <i data-feather="plus" aria-hidden="true"></i> Add Product
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/products.html?action=upload">
+                <i data-feather="image" aria-hidden="true"></i> Upload Product Pictures
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/products.html?action=delete">
+                <i data-feather="trash-2" aria-hidden="true"></i> Delete Product
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/products.html?action=price">
+                <i data-feather="dollar-sign" aria-hidden="true"></i> Update Prices
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/products.html">
+                <i data-feather="package" aria-hidden="true"></i> Products &amp; Pricing
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/orders.html">
+                <i data-feather="shopping-cart" aria-hidden="true"></i> Orders
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/customers.html">
+                <i data-feather="users" aria-hidden="true"></i> Customers
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/analytics.html">
+                <i data-feather="bar-chart-2" aria-hidden="true"></i> Analytics
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/complaints.html">
+                <i data-feather="message-circle" aria-hidden="true"></i> Complaints
+              </a>
+              <a class="btn btn-ghost" style="justify-content:flex-start;" href="admin/settings.html">
+                <i data-feather="settings" aria-hidden="true"></i> Store Settings
+              </a>
             </div>
           </div>
         </div>

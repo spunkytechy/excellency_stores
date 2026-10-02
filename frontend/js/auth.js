@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — auth.js
+   KISSOWRA'S BEAUTY — auth.js
    Admin login page + token-based session management
    ============================================================ */
 
@@ -25,7 +25,8 @@ const Auth = {
 
 // ── Guard: redirect to login if not authenticated ──────────
 function requireAdminAuth() {
-  if (!Auth.isLoggedIn()) {
+  if (!Auth.isLoggedIn() || Auth.getUser()?.role !== 'admin') {
+    Auth.clearSession();
     window.location.href = '../login.html';
     return false;
   }
@@ -36,8 +37,11 @@ function requireAdminAuth() {
 function initLoginPage() {
   // Already logged in? Go to dashboard
   if (Auth.isLoggedIn()) {
-    window.location.href = 'admin/dashboard.html';
-    return;
+    if (Auth.getUser()?.role === 'admin') {
+      window.location.href = 'admin/dashboard.html';
+      return;
+    }
+    Auth.clearSession();
   }
 
   const form       = document.getElementById('loginForm');
@@ -84,14 +88,14 @@ function initLoginPage() {
       loginBtn.textContent = 'Signing in…';
 
       try {
-        const res  = await fetch('/api/auth/login', {
+        const res  = await fetch('/api/auth/admin-login', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ email, password })
         });
         const data = await res.json();
 
-        if (data.success) {
+        if (data.success && data.user?.role === 'admin') {
           Auth.setSession(data.token, data.user);
           window.location.href = 'admin/dashboard.html';
         } else {

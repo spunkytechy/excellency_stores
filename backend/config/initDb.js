@@ -55,6 +55,40 @@ function initDb() {
     );
   `);
 
+  db.prepare(`
+    UPDATE products SET category = CASE lower(trim(category))
+      WHEN 'lip gloss' THEN 'Lipgloss'
+      WHEN 'lipgloss' THEN 'Lipgloss'
+      WHEN 'lip glosses' THEN 'Lipgloss'
+      WHEN 'lip set' THEN 'Lip set'
+      WHEN 'lip sets' THEN 'Lip set'
+      WHEN 'lipset' THEN 'Lip set'
+      WHEN 'lipsets' THEN 'Lip set'
+      WHEN 'dress' THEN 'Clothes'
+      WHEN 'dresses' THEN 'Clothes'
+      WHEN 'co-ord' THEN 'Clothes'
+      WHEN 'co-ords' THEN 'Clothes'
+      WHEN 'clothing' THEN 'Clothes'
+      WHEN 'clothes' THEN 'Clothes'
+      WHEN 'fashion' THEN 'Clothes'
+      WHEN 'shoe' THEN 'Shoes'
+      WHEN 'shoes' THEN 'Shoes'
+      WHEN 'footwear' THEN 'Shoes'
+      WHEN 'handbag' THEN 'Handbags'
+      WHEN 'handbags' THEN 'Handbags'
+      WHEN 'bag' THEN 'Handbags'
+      WHEN 'bags' THEN 'Handbags'
+      WHEN 'purse' THEN 'Handbags'
+      WHEN 'purses' THEN 'Handbags'
+      ELSE category
+    END
+    WHERE lower(trim(category)) IN (
+      'lip gloss', 'lipgloss', 'lip glosses', 'lip set', 'lip sets', 'lipset', 'lipsets',
+      'dress', 'dresses', 'co-ord', 'co-ords', 'clothing', 'clothes', 'fashion',
+      'shoe', 'shoes', 'footwear', 'handbag', 'handbags', 'bag', 'bags', 'purse', 'purses'
+    )
+  `).run();
+
   // ── Orders ─────────────────────────────────────────────────
   db.exec(`
     CREATE TABLE IF NOT EXISTS orders (
@@ -151,7 +185,7 @@ function initDb() {
   if (!settingsExist) {
     db.prepare(`
       INSERT INTO store_settings (id, store_name, whatsapp_number, delivery_fee)
-      VALUES (1, 'KISSOWRA''S STORES', ?, 1500)
+      VALUES (1, 'KISSOWRA''S BEAUTY', ?, 1500)
     `).run(process.env.WHATSAPP_NUMBER || '2348000000000');
     console.log('✔  Default store settings seeded.');
   }
@@ -175,37 +209,37 @@ function initDb() {
     const sampleProducts = [
       {
         id: uuidv4(), name: 'Kissowra Gloss Luxe', description: 'Premium high-shine lip gloss with a moisturising formula. Long-lasting colour and shine for every occasion.',
-        category: 'Lip Gloss', price: 4500, discount_price: 3800, stock: 50,
+        category: 'Lipgloss', price: 4500, discount_price: 3800, stock: 50,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['Nude Bliss', 'Rose Gold', 'Berry Kiss', 'Clear Shine'])
       },
       {
         id: uuidv4(), name: 'Velvet Plump Gloss', description: 'Plumping lip gloss with hyaluronic acid. Gives lips a fuller, juicier look.',
-        category: 'Lip Gloss', price: 5200, discount_price: null, stock: 35,
+        category: 'Lipgloss', price: 5200, discount_price: null, stock: 35,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['Pink Velvet', 'Coral Crush', 'Mauve Dreams'])
       },
       {
         id: uuidv4(), name: 'KISSOWRA Silk Dress', description: 'Elegant wrap-style midi dress in premium satin fabric. Perfect for date nights and special occasions.',
-        category: 'Dresses', price: 28000, discount_price: 22000, stock: 20,
+        category: 'Clothes', price: 28000, discount_price: 22000, stock: 20,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['XS', 'S', 'M', 'L', 'XL'])
       },
       {
         id: uuidv4(), name: 'Golden Hour Lip Set', description: 'Complete lip care set: gloss, liner, and overnight balm. The perfect gift for beauty lovers.',
-        category: 'Lip Sets', price: 12000, discount_price: 9500, stock: 15,
+        category: 'Lip set', price: 12000, discount_price: 9500, stock: 15,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['Set A - Nudes', 'Set B - Berries', 'Set C - Corals'])
       },
       {
         id: uuidv4(), name: 'Linen Co-ord Set', description: 'Breathable linen two-piece co-ord set. Casual elegance redefined.',
-        category: 'Co-ords', price: 18500, discount_price: null, stock: 25,
+        category: 'Clothes', price: 18500, discount_price: null, stock: 25,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['S', 'M', 'L', 'XL'])
       },
       {
         id: uuidv4(), name: 'Glow Gloss Trio', description: 'Three bestselling glosses in one curated set. Everyday glam made easy.',
-        category: 'Lip Sets', price: 9000, discount_price: 7200, stock: 40,
+        category: 'Lip set', price: 9000, discount_price: 7200, stock: 40,
         image: '/images/product-placeholder.jpg', status: 'active',
         variants: JSON.stringify(['Trio A', 'Trio B'])
       }

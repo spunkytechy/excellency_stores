@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — Checkout & Payment Styles
+   KISSOWRA'S BEAUTY — Checkout & Payment Styles
    ============================================================ */
 
 .checkout-page {
@@ -336,6 +336,23 @@
   color: var(--clr-primary);
   text-align: center;
   margin-bottom: var(--space-2);
+}
+
+.auth-card__logo .brand-logo-image {
+  width: 116px;
+  height: 58px;
+}
+
+.auth-card__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.auth-card__logo .brand-logo-name {
+  color: var(--clr-primary);
+  font-size: var(--text-sm);
 }
 
 .auth-card__logo span { color: var(--clr-secondary); }

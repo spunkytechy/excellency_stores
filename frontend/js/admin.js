@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — admin.js
+   KISSOWRA'S BEAUTY — admin.js
    All admin dashboard, products, orders, customers,
    analytics, complaints, settings page logic.
    ============================================================ */
@@ -184,6 +184,20 @@ async function initAdminProducts() {
   // Save price
   document.getElementById('savePriceBtn')?.addEventListener('click', () => updateProductPrice());
 
+  const requestedAction = new URLSearchParams(window.location.search).get('action');
+  if (requestedAction === 'add') {
+    openProductModal();
+  } else if (requestedAction === 'upload') {
+    document.getElementById('productsTableBody')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('Choose a product and select its image action to upload or replace its picture.', 'info');
+  } else if (requestedAction === 'delete' || requestedAction === 'price') {
+    document.getElementById('productsTableBody')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const actionMessage = requestedAction === 'delete'
+      ? 'Choose a product below to delete.'
+      : 'Choose a product below to update its price.';
+    showToast(actionMessage, 'info');
+  }
+
   // Image preview
   document.getElementById('pImage')?.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -202,13 +216,16 @@ async function initAdminProducts() {
       categories = data.categories;
 
       const catFilter  = document.getElementById('productCatFilter');
-      const catList    = document.getElementById('categoryList');
+      const categorySelect = document.getElementById('pCategory');
 
       if (catFilter) data.categories.forEach(c => {
         catFilter.innerHTML += `<option value="${escHtml(c)}">${escHtml(c)}</option>`;
       });
-      if (catList) data.categories.forEach(c => {
-        catList.innerHTML += `<option value="${escHtml(c)}">`;
+      if (categorySelect) data.categories.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.textContent = c;
+        categorySelect.appendChild(option);
       });
     } catch {}
   }
@@ -269,12 +286,14 @@ async function initAdminProducts() {
           <td>
             <div class="table-action-group">
               <button class="btn btn-ghost btn--sm" onclick="openProductModal('${p.id}')" title="Edit">✏️</button>
+              <button class="btn btn-ghost btn--sm" onclick="openProductImageModal('${p.id}')" title="Upload image" aria-label="Upload image for ${escHtml(p.name)}"><i data-feather="image" aria-hidden="true"></i></button>
               <button class="btn btn-ghost btn--sm" onclick="openPriceModal('${p.id}','${escHtml(p.name)}',${p.price},${p.discount_price || 'null'})" title="Price">💰</button>
               <button class="btn btn-danger btn--sm" onclick="openDeleteModal('${p.id}','${escHtml(p.name)}')" title="Delete">🗑️</button>
             </div>
           </td>
         </tr>`;
       }).join('');
+      if (window.feather) window.feather.replace();
 
       renderPagination(pagEl, currentPage, Math.ceil(data.total / 15), (p) => { currentPage = p; loadAdminProducts(); });
     } catch {
@@ -319,6 +338,12 @@ async function openProductModal(productId) {
   }
 
   openModal('productModal');
+}
+
+async function openProductImageModal(productId) {
+  await openProductModal(productId);
+  document.getElementById('imageUploadArea')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('pImage')?.focus({ preventScroll: true });
 }
 
 async function saveProduct() {

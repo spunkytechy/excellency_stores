@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — main.js
+   KISSOWRA'S BEAUTY — main.js
    Shared utilities: nav, toasts, modals, WhatsApp, complaints
    ============================================================ */
 
@@ -241,7 +241,7 @@ async function initWhatsAppButtons() {
   const num  = cfg?.whatsapp_number || '';
   if (!num) return;
 
-  const defaultMsg = "Hello KISSOWRA'S STORES, I'd like to place an order.";
+  const defaultMsg = "Hello KISSOWRA'S BEAUTY, I'd like to place an order.";
 
   // Main floating button
   const floatBtn = document.getElementById('whatsappFloat');
@@ -296,7 +296,7 @@ function initComplaintModal() {
         // Also open WhatsApp if number is configured
         const cfg = await loadStoreConfig();
         if (cfg?.whatsapp_number) {
-          const msg = `Hello KISSOWRA'S STORES, I would like to make a complaint.${body.order_id ? ` Order: ${body.order_id}` : ''}`;
+          const msg = `Hello KISSOWRA'S BEAUTY, I would like to make a complaint.${body.order_id ? ` Order: ${body.order_id}` : ''}`;
           window.open(buildWhatsAppUrl(cfg.whatsapp_number, msg), '_blank', 'noopener');
         }
       } else {

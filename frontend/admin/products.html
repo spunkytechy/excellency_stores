@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products — KISSOWRA'S STORES Admin</title>
+  <title>Products — KISSOWRA'S BEAUTY Admin</title>
   <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +17,7 @@
   <!-- Sidebar -->
   <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-header">
-      <div class="sidebar-logo">KISSOWRA'<span>S</span> STORES</div>
+      <div class="sidebar-logo"><img src="../images/WhatsApp%20Image%202026-09-30%20at%2021.27.20.jpeg" alt="Kissowra Beauty" class="brand-logo-image" /><span class="brand-logo-name">KISSOWRA'S BEAUTY</span></div>
       <div class="sidebar-tagline">Admin Portal</div>
     </div>
     <nav class="sidebar-nav">
@@ -136,8 +136,9 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="pCategory">Category <span class="required">*</span></label>
-              <input class="form-input" type="text" id="pCategory" required list="categoryList" placeholder="e.g. Lip Gloss" />
-              <datalist id="categoryList"></datalist>
+              <select class="form-select" id="pCategory" required>
+                <option value="">Select a category</option>
+              </select>
             </div>
           </div>
 

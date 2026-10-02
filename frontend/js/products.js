@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — products.js
+   KISSOWRA'S BEAUTY — products.js
    Shop page listing + Product detail page
    ============================================================ */
 
@@ -273,7 +273,7 @@ function renderProductDetail(product) {
   if (loadingEl) loadingEl.style.display = 'none';
   if (contentEl) contentEl.style.display = 'block';
 
-  document.title = `${product.name} — KISSOWRA'S STORES`;
+  document.title = `${product.name} — KISSOWRA'S BEAUTY`;
 
   // Breadcrumb
   const bc = document.getElementById('breadcrumbProduct');

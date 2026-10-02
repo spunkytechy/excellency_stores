@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — checkout.js
+   KISSOWRA'S BEAUTY — checkout.js
    Multi-step checkout: details → review → payment
    ============================================================ */
 

@@ -1,5 +1,5 @@
 // backend/server.js
-// KISSOWRA'S STORES — Express API Server
+// KISSOWRA'S BEAUTY — Express API Server
 
 require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 
@@ -62,7 +62,7 @@ app.use('/api/settings',   require('./routes/settings'));
 
 // ── Health check ───────────────────────────────────────────
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: "KISSOWRA'S STORES API is running.", timestamp: new Date() });
+  res.json({ success: true, message: "KISSOWRA'S BEAUTY API is running.", timestamp: new Date() });
 });
 
 // ── SPA fallback — serve frontend for all non-API routes ──
@@ -92,7 +92,7 @@ app.listen(PORT, () => {
   console.log("  ██║  ██╗██║███████║███████║╚██████╔╝╚███╔███╔╝██║  ██║██║  ██║");
   console.log("  ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
   console.log('');
-  console.log(`  🛍️  KISSOWRA'S STORES API running at http://localhost:${PORT}`);
+  console.log(`  🛍️  KISSOWRA'S BEAUTY API running at http://localhost:${PORT}`);
   console.log(`  📦  Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log('');
 });

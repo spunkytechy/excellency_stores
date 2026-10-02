@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — cart.js
+   KISSOWRA'S BEAUTY — cart.js
    Shopping cart using localStorage for persistence
    ============================================================ */
 

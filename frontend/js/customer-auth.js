@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — customer-auth.js
+   KISSOWRA'S BEAUTY — customer-auth.js
    Customer authentication: sign-in, sign-up, forgot/reset
    password, account page, nav session state.
    ============================================================ */
@@ -392,6 +392,48 @@ function initResetPasswordPage() {
 // ACCOUNT PAGE
 // ═══════════════════════════════════════════════════════════
 async function initAccountPage() {
+  const adminToken = localStorage.getItem('kws_admin_token');
+  if (adminToken) {
+    try {
+      const response = await fetch('/api/auth/me', {
+        headers: { Authorization: `Bearer ${adminToken}` }
+      });
+      const data = await response.json();
+      if (response.ok && data.success && data.user?.role === 'admin') {
+        const user = data.user;
+        const avatarEl = document.getElementById('accountAvatar');
+        const nameEl = document.getElementById('accountName');
+        const emailEl = document.getElementById('accountEmail');
+        const storeManagementNav = document.getElementById('storeManagementNav');
+
+        if (avatarEl) avatarEl.textContent = (user.name || 'A').charAt(0).toUpperCase();
+        if (nameEl) nameEl.textContent = user.name || 'Admin';
+        if (emailEl) emailEl.textContent = user.email || '';
+
+        document.querySelectorAll('.account-nav-link:not(#storeManagementNav)').forEach(link => {
+          link.hidden = true;
+        });
+        document.getElementById('customerAccountDivider').hidden = true;
+        storeManagementNav.hidden = false;
+        storeManagementNav.classList.add('active');
+
+        document.querySelectorAll('.account-panel').forEach(panel => panel.classList.remove('active'));
+        document.getElementById('panel-store-management').classList.add('active');
+        const heading = document.querySelector('.account-page h1');
+        if (heading) heading.textContent = 'Store Management';
+        const subtitle = heading?.nextElementSibling;
+        if (subtitle) subtitle.textContent = 'Manage products, pricing, orders, and store settings.';
+
+        storeManagementNav.addEventListener('click', () => {
+          document.querySelectorAll('.account-panel').forEach(panel => panel.classList.remove('active'));
+          document.getElementById('panel-store-management').classList.add('active');
+          storeManagementNav.classList.add('active');
+        });
+        return;
+      }
+    } catch {}
+  }
+
   // Require login
   if (!CustomerAuth.isLoggedIn()) {
     CustomerAuth.setRedirectUrl('account.html');

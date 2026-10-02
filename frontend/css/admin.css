@@ -1,5 +1,5 @@
 /* ============================================================
-   KISSOWRA'S STORES — Admin Dashboard Styles
+   KISSOWRA'S BEAUTY — Admin Dashboard Styles
    Uses the same design tokens as style.css
    ============================================================ */
 
@@ -31,11 +31,29 @@
 }
 
 .sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: var(--fw-bold);
   color: var(--clr-white);
   line-height: 1.2;
+}
+
+.sidebar-logo .brand-logo-image {
+  width: 104px;
+  height: 52px;
+}
+
+.sidebar-logo .brand-logo-name {
+  color: var(--clr-white);
+  font-size: var(--text-xs);
+}
+
+.sidebar-logo .brand-logo-name {
+  color: var(--clr-white);
+  font-size: var(--text-xs);
 }
 
 .sidebar-logo span { color: var(--clr-secondary); }
