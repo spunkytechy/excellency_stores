@@ -50,6 +50,12 @@
         <i data-feather="shopping-bag" aria-hidden="true"></i>
         <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
       </a>
+      <!-- Account — swapped by customer-auth.js when logged in -->
+      <span class="nav-account-link">
+        <a href="signin.html" class="nav-icon-btn" aria-label="Sign in to your account" title="Sign In">
+          <i data-feather="user" aria-hidden="true"></i>
+        </a>
+      </span>
     </div>
 
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -66,6 +72,11 @@
   <a href="shop.html?cat=Dresses" class="nav-link">Fashion</a>
   <a href="#about" class="nav-link">About</a>
   <a href="cart.html" class="btn btn-primary btn--sm">View Cart (<span id="mobileCartCount">0</span>)</a>
+  <span class="nav-account-link" style="display:block;">
+    <a href="signin.html" class="nav-link" style="display:flex;align-items:center;gap:var(--space-2);">
+      <i data-feather="user" style="width:16px;height:16px;" aria-hidden="true"></i> Sign In / Account
+    </a>
+  </span>
 </div>
 
 <!-- Search Overlay -->
@@ -399,7 +410,7 @@
     </div>
 
     <div class="footer-bottom">
-      <span>© 2024 KISSOWRA'S STORES. All rights reserved.</span>
+      <span>© 2026 KISSOWRA'S STORES. All rights reserved.</span>
       <span>Crafted with ❤️ in Nigeria</span>
     </div>
   </div>
@@ -460,6 +471,7 @@
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
 <script src="js/products.js"></script>
+<script src="js/customer-auth.js"></script>
 <script>
   feather.replace();
 

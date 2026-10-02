@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account — KISSOWRA'S STORES</title>
+  <meta name="description" content="Manage your KISSOWRA'S STORES account, view orders and update your profile." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    .account-page {
+      padding-top: calc(var(--nav-height) + var(--space-8));
+      padding-bottom: var(--space-20);
+      min-height: 80svh;
+      background: var(--clr-accent-light);
+    }
+    .account-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+    .account-sidebar {
+      background: var(--clr-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--clr-border);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-4));
+    }
+    .account-sidebar__header {
+      padding: var(--space-6);
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-light));
+      text-align: center;
+    }
+    .account-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; font-weight: var(--fw-bold); color: white;
+      margin: 0 auto var(--space-3);
+      border: 3px solid rgba(255,255,255,.4);
+    }
+    .account-name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: var(--fw-semi); color: white; }
+    .account-email { font-size: var(--text-xs); color: rgba(255,255,255,.7); margin-top: var(--space-1); }
+    .account-nav { padding: var(--space-3) 0; }
+    .account-nav-link {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      font-size: var(--text-sm); font-weight: var(--fw-medium);
+      color: var(--clr-mid); text-decoration: none;
+      transition: color var(--duration-fast), background var(--duration-fast);
+      cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+    }
+    .account-nav-link:hover    { color: var(--clr-primary); background: var(--clr-accent-light); }
+    .account-nav-link.active   { color: var(--clr-primary); background: rgba(139,26,74,.07); font-weight: var(--fw-semi); }
+    .account-nav-link--danger  { color: var(--clr-error) !important; }
+    .account-nav-link--danger:hover { background: var(--clr-error-bg) !important; }
+
+    .account-panel { display: none; }
+    .account-panel.active { display: block; }
+
+    .panel-card {
+      background: var(--clr-white); border-radius: var(--radius-lg);
+      border: 1px solid var(--clr-border); overflow: hidden;
+    }
+    .panel-card__header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--clr-border);
+      background: var(--clr-accent-light);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .panel-card__title { font-family: var(--font-display); font-size: var(--text-xl); font-weight: var(--fw-semi); }
+    .panel-card__body  { padding: var(--space-6); }
+
+    .order-card {
+      border: 1px solid var(--clr-border); border-radius: var(--radius-lg);
+      overflow: hidden; margin-bottom: var(--space-4); transition: box-shadow var(--duration-normal);
+    }
+    .order-card:hover { box-shadow: var(--shadow-md); }
+    .order-card__header {
+      padding: var(--space-4) var(--space-5);
+      background: var(--clr-accent-light);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--space-3);
+    }
+    .order-card__body { padding: var(--space-4) var(--space-5); }
+    .order-item-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px dashed var(--clr-border); }
+    .order-item-row:last-child { border-bottom: none; }
+
+    @media (max-width: 768px) {
+      .account-grid { grid-template-columns: 1fr; }
+      .account-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav scrolled" id="mainNav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">KISSOWRA'<span>S</span> STORES</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="shop.html"  class="nav-link">Shop</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+        <i data-feather="shopping-bag"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+      <a href="account.html" class="nav-icon-btn" aria-label="My Account" title="My Account">
+        <i data-feather="user"></i>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="shop.html"  class="nav-link">Shop</a>
+  <a href="cart.html"  class="nav-link">Cart</a>
+  <a href="account.html" class="nav-link active">My Account</a>
+</div>
+
+<main class="account-page">
+  <div class="container">
+
+    <div style="margin-bottom:var(--space-8);">
+      <h1 style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);">My Account</h1>
+      <p style="color:var(--clr-muted);font-size:var(--text-sm);margin-top:var(--space-2);">Manage your profile, view orders and update your settings.</p>
+    </div>
+
+    <div class="account-grid">
+
+      <!-- Sidebar -->
+      <aside class="account-sidebar" aria-label="Account navigation">
+        <div class="account-sidebar__header">
+          <div class="account-avatar" id="accountAvatar" aria-hidden="true">K</div>
+          <div class="account-name"  id="accountName">Loading…</div>
+          <div class="account-email" id="accountEmail"></div>
+        </div>
+        <nav class="account-nav" role="navigation" aria-label="Account sections">
+          <button class="account-nav-link active" data-panel="overview">
+            <i data-feather="home" style="width:16px;height:16px;"></i> Overview
+          </button>
+          <button class="account-nav-link" data-panel="orders">
+            <i data-feather="package" style="width:16px;height:16px;"></i> My Orders
+          </button>
+          <button class="account-nav-link" data-panel="profile">
+            <i data-feather="user" style="width:16px;height:16px;"></i> Edit Profile
+          </button>
+          <button class="account-nav-link" data-panel="security">
+            <i data-feather="lock" style="width:16px;height:16px;"></i> Security
+          </button>
+          <hr style="border:none;border-top:1px solid var(--clr-border);margin:var(--space-2) 0;" />
+          <button class="account-nav-link account-nav-link--danger" id="accountLogoutBtn">
+            <i data-feather="log-out" style="width:16px;height:16px;"></i> Sign Out
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main content panels -->
+      <div>
+
+        <!-- Overview panel -->
+        <div class="account-panel active" id="panel-overview">
+          <div class="panel-card">
+            <div class="panel-card__header">
+              <h2 class="panel-card__title">Overview</h2>
+            </div>
+            <div class="panel-card__body">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-4);margin-bottom:var(--space-6);" id="overviewStats">
+                <div style="background:var(--clr-accent-light);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center;border:1px solid var(--clr-accent);">
+                  <div style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-primary);" id="statOrders">—</div>
+                  <div style="font-size:var(--text-xs);color:var(--clr-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:var(--space-1);">Orders</div>
+                </div>
+                <div style="background:var(--clr-accent-light);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center;border:1px solid var(--clr-accent);">
+                  <div style="font-family:var(--font-display);font-size:var(--text-3xl);font-weight:var(--fw-bold);color:var(--clr-secondary);" id="statSpent">—</div>
+                  <div style="font-size:var(--text-xs);color:var(--clr-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:var(--space-1);">Total Spent</div>
+                </div>
+              </div>
+              <a href="shop.html" class="btn btn-primary" style="width:fit-content;">
+                <i data-feather="shopping-bag" style="width:15px;height:15px;"></i> Continue Shopping
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders panel -->
+        <div class="account-panel" id="panel-orders">
+          <div class="panel-card">
+            <div class="panel-card__header">
+              <h2 class="panel-card__title">My Orders</h2>
+            </div>
+            <div class="panel-card__body" id="ordersPanel">
+              <div style="text-align:center;padding:var(--space-8);">
+                <div class="spinner" style="margin:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile panel -->
+        <div class="account-panel" id="panel-profile">
+          <div class="panel-card">
+            <div class="panel-card__header">
+              <h2 class="panel-card__title">Edit Profile</h2>
+            </div>
+            <div class="panel-card__body">
+              <form id="profileForm" novalidate style="max-width:460px;display:flex;flex-direction:column;gap:var(--space-4);">
+                <div class="form-group">
+                  <label class="form-label" for="profName">Full Name <span class="required">*</span></label>
+                  <input class="form-input" type="text" id="profName" required autocomplete="name" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="profPhone">Phone Number</label>
+                  <input class="form-input" type="tel" id="profPhone" autocomplete="tel" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input class="form-input" type="email" id="profEmail" disabled
+                    style="background:var(--clr-light);cursor:not-allowed;" />
+                  <div class="form-hint">Email cannot be changed. Contact support if needed.</div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:fit-content;" id="saveProfileBtn">
+                  Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security panel -->
+        <div class="account-panel" id="panel-security">
+          <div class="panel-card">
+            <div class="panel-card__header">
+              <h2 class="panel-card__title">Security</h2>
+            </div>
+            <div class="panel-card__body">
+              <form id="securityForm" novalidate style="max-width:460px;display:flex;flex-direction:column;gap:var(--space-4);">
+                <div class="form-group">
+                  <label class="form-label" for="curPw">Current Password <span class="required">*</span></label>
+                  <input class="form-input" type="password" id="curPw" autocomplete="current-password" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="secNewPw">New Password <span class="required">*</span></label>
+                  <input class="form-input" type="password" id="secNewPw" autocomplete="new-password" placeholder="At least 8 characters" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="secConfirmPw">Confirm New Password <span class="required">*</span></label>
+                  <input class="form-input" type="password" id="secConfirmPw" autocomplete="new-password" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:fit-content;" id="saveSecurityBtn">
+                  Update Password
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Floating WhatsApp -->
+<div class="whatsapp-float">
+  <a class="whatsapp-float__btn" id="whatsappFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white"/></svg>
+  </a>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/customer-auth.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => initAccountPage());
+</script>
+</body>
+</html>

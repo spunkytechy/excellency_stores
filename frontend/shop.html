@@ -32,6 +32,11 @@
         <i data-feather="shopping-bag" aria-hidden="true"></i>
         <span class="cart-badge" id="cartBadge">0</span>
       </a>
+      <span class="nav-account-link">
+        <a href="signin.html" class="nav-icon-btn" aria-label="Sign in" title="Sign In / Account">
+          <i data-feather="user" aria-hidden="true"></i>
+        </a>
+      </span>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -45,6 +50,11 @@
   <a href="shop.html?cat=Lip+Gloss" class="nav-link">Lip Gloss</a>
   <a href="shop.html?cat=Dresses" class="nav-link">Fashion</a>
   <a href="index.html#about" class="nav-link">About</a>
+  <span class="nav-account-link" style="display:block;">
+    <a href="signin.html" class="nav-link" style="display:flex;align-items:center;gap:var(--space-2);">
+      <i data-feather="user" style="width:16px;height:16px;" aria-hidden="true"></i> Sign In / Account
+    </a>
+  </span>
 </div>
 
 <!-- ── Shop Hero ─────────────────────────────────────────── -->
@@ -171,7 +181,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2024 KISSOWRA'S STORES.</span>
+      <span>© 2026 KISSOWRA'S STORES.</span>
     </div>
   </div>
 </footer>
@@ -189,6 +199,7 @@
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
 <script src="js/products.js"></script>
+<script src="js/customer-auth.js"></script>
 <script>
   feather.replace();
   // Shop page initialises in products.js → initShopPage()

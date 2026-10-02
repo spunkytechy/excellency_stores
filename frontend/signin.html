@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — KISSOWRA'S STORES</title>
+  <meta name="description" content="Sign in to your KISSOWRA'S STORES account to track orders and shop faster." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    /* ── Auth page extras ──────────────────────────────── */
+    .auth-page { background: linear-gradient(135deg, var(--clr-dark) 0%, #3a0a24 45%, var(--clr-primary-dark) 100%); }
+
+    .auth-card { animation: cardSlideUp .45s var(--ease-out) both; }
+    @keyframes cardSlideUp {
+      from { opacity: 0; transform: translateY(24px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)   scale(1);    }
+    }
+
+    .auth-divider {
+      display: flex; align-items: center; gap: var(--space-4);
+      color: var(--clr-muted); font-size: var(--text-xs);
+      text-transform: uppercase; letter-spacing: .1em; margin: var(--space-5) 0;
+    }
+    .auth-divider::before,
+    .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--clr-border); }
+
+    .pw-wrap { position: relative; }
+    .pw-toggle {
+      position: absolute; right: var(--space-3); top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--clr-muted);
+      display: flex; padding: var(--space-1); border-radius: var(--radius-sm);
+      transition: color var(--duration-fast);
+    }
+    .pw-toggle:hover { color: var(--clr-primary); }
+
+    .strength-bar { height: 4px; border-radius: 99px; background: var(--clr-border); overflow: hidden; margin-top: var(--space-2); display: none; }
+    .strength-bar__fill { height: 100%; width: 0; border-radius: 99px; transition: width .3s, background .3s; }
+
+    .social-btn {
+      display: flex; align-items: center; justify-content: center; gap: var(--space-3);
+      width: 100%; padding: .75em 1em; border: 1.5px solid var(--clr-border);
+      border-radius: var(--radius-full); background: var(--clr-white); font-size: var(--text-sm);
+      font-weight: var(--fw-medium); cursor: pointer; transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+    }
+    .social-btn:hover { border-color: var(--clr-primary); box-shadow: var(--shadow-sm); }
+
+    .tab-row { display: flex; border-bottom: 2px solid var(--clr-border); margin-bottom: var(--space-6); }
+    .tab-btn {
+      flex: 1; padding: var(--space-3) var(--space-4); font-size: var(--text-sm);
+      font-weight: var(--fw-semi); color: var(--clr-muted); background: none;
+      border: none; border-bottom: 3px solid transparent; margin-bottom: -2px;
+      cursor: pointer; transition: color var(--duration-fast), border-color var(--duration-fast);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .tab-btn.active { color: var(--clr-primary); border-bottom-color: var(--clr-primary); }
+
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="auth-page" role="main" aria-label="Sign in page">
+
+  <!-- Back link -->
+  <a href="index.html"
+     style="position:fixed;top:var(--space-5);left:var(--space-5);display:flex;align-items:center;gap:var(--space-2);
+            color:rgba(255,255,255,.65);font-size:var(--text-sm);font-weight:var(--fw-medium);z-index:10;
+            transition:color var(--duration-fast);"
+     onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='rgba(255,255,255,.65)'">
+    <i data-feather="arrow-left" style="width:16px;height:16px;"></i> Back to Store
+  </a>
+
+  <div class="auth-card" role="region" aria-labelledby="authCardTitle">
+
+    <!-- Logo -->
+    <div class="auth-card__logo" aria-label="KISSOWRA'S STORES">
+      KISSOWRA'<span>S</span> STORES
+    </div>
+    <p class="auth-card__sub">Your beauty. Your fashion. Your account.</p>
+
+    <!-- Tabs: Sign In / Sign Up -->
+    <div class="tab-row" role="tablist" aria-label="Authentication options">
+      <button class="tab-btn active" id="signinTab" role="tab" aria-selected="true"  aria-controls="signinPanel">Sign In</button>
+      <button class="tab-btn"        id="signupTab" role="tab" aria-selected="false" aria-controls="signupPanel">Create Account</button>
+    </div>
+
+    <!-- ── SIGN IN PANEL ──────────────────────────────────── -->
+    <div class="form-panel active" id="signinPanel" role="tabpanel" aria-labelledby="signinTab">
+      <h1 class="auth-card__title" id="authCardTitle" style="font-size:var(--text-xl);">Welcome Back 💋</h1>
+
+      <div class="auth-error" id="signinError" role="alert">
+        <i data-feather="alert-circle" style="width:15px;height:15px;flex-shrink:0;"></i>
+        <span id="signinErrorMsg"></span>
+      </div>
+
+      <form id="signinForm" novalidate>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+
+          <div class="form-group">
+            <label class="form-label" for="siEmail">Email Address</label>
+            <input class="form-input" type="email" id="siEmail" name="email"
+              required autocomplete="email" placeholder="your@email.com" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="siPassword">
+              Password
+              <button type="button" id="forgotBtn"
+                style="float:right;background:none;border:none;cursor:pointer;color:var(--clr-primary);
+                       font-size:var(--text-xs);font-weight:var(--fw-medium);padding:0;"
+                aria-label="Forgot password">
+                Forgot password?
+              </button>
+            </label>
+            <div class="pw-wrap">
+              <input class="form-input" type="password" id="siPassword" name="password"
+                required autocomplete="current-password" placeholder="Enter your password" />
+              <button type="button" class="pw-toggle" id="siPwToggle" aria-label="Show password">
+                <i data-feather="eye" style="width:17px;height:17px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:var(--space-3);cursor:pointer;font-size:var(--text-sm);color:var(--clr-mid);">
+            <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--clr-primary);" />
+            Keep me signed in
+          </label>
+
+          <button type="submit" class="btn btn-primary btn--full btn--lg" id="signinBtn">
+            Sign In
+          </button>
+        </div>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <p style="text-align:center;font-size:var(--text-sm);color:var(--clr-muted);">
+        New here?
+        <button type="button" id="goToSignup"
+          style="background:none;border:none;cursor:pointer;color:var(--clr-primary);font-weight:var(--fw-semi);">
+          Create a free account →
+        </button>
+      </p>
+    </div>
+
+    <!-- ── FORGOT PASSWORD PANEL ──────────────────────────── -->
+    <div class="form-panel" id="forgotPanel" role="region" aria-label="Forgot password">
+      <h1 class="auth-card__title" style="font-size:var(--text-xl);">Reset Password 🔑</h1>
+      <p style="font-size:var(--text-sm);color:var(--clr-muted);margin-bottom:var(--space-5);">
+        Enter your email and we'll send you a reset link.
+      </p>
+
+      <div class="auth-error" id="forgotError" role="alert">
+        <i data-feather="alert-circle" style="width:15px;height:15px;flex-shrink:0;"></i>
+        <span id="forgotErrorMsg"></span>
+      </div>
+      <div class="auth-error" id="forgotSuccess"
+           style="border-color:var(--clr-success);background:var(--clr-success-bg);" role="status">
+        <i data-feather="check-circle" style="width:15px;height:15px;flex-shrink:0;color:var(--clr-success);"></i>
+        <span id="forgotSuccessMsg" style="color:var(--clr-success);"></span>
+      </div>
+
+      <form id="forgotForm" novalidate>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <div class="form-group">
+            <label class="form-label" for="forgotEmail">Email Address</label>
+            <input class="form-input" type="email" id="forgotEmail" required
+              autocomplete="email" placeholder="your@email.com" />
+          </div>
+          <button type="submit" class="btn btn-primary btn--full" id="forgotBtn2">
+            Send Reset Link
+          </button>
+          <button type="button" id="backToSignin"
+            class="btn btn-ghost btn--full">
+            ← Back to Sign In
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div><!-- /.auth-card -->
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/customer-auth.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => {
+    // Redirect if already logged in
+    if (CustomerAuth.isLoggedIn()) {
+      window.location.href = CustomerAuth.getRedirectUrl() || 'index.html';
+      return;
+    }
+    initSignInPage();
+  });
+</script>
+</body>
+</html>

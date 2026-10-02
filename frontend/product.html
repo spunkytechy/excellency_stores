@@ -27,6 +27,11 @@
         <i data-feather="shopping-bag"></i>
         <span class="cart-badge" id="cartBadge">0</span>
       </a>
+      <span class="nav-account-link">
+        <a href="signin.html" class="nav-icon-btn" aria-label="Sign in" title="Sign In / Account">
+          <i data-feather="user"></i>
+        </a>
+      </span>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -38,6 +43,11 @@
   <a href="index.html" class="nav-link">Home</a>
   <a href="shop.html" class="nav-link">Shop</a>
   <a href="cart.html" class="nav-link">Cart (<span id="mobileCartCount">0</span>)</a>
+  <span class="nav-account-link" style="display:block;">
+    <a href="signin.html" class="nav-link" style="display:flex;align-items:center;gap:var(--space-2);">
+      <i data-feather="user" style="width:16px;height:16px;" aria-hidden="true"></i> Sign In / Account
+    </a>
+  </span>
 </div>
 
 <!-- ── Breadcrumb ─────────────────────────────────────────── -->
@@ -167,7 +177,7 @@
 <footer class="site-footer" style="margin-top:var(--space-20);" role="contentinfo">
   <div class="container">
     <div class="footer-bottom">
-      <span>© 2024 KISSOWRA'S STORES.</span>
+      <span>© 2026 KISSOWRA'S STORES.</span>
       <a href="shop.html" style="color:var(--clr-secondary);">Continue Shopping →</a>
     </div>
   </div>
@@ -184,6 +194,7 @@
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
 <script src="js/products.js"></script>
+<script src="js/customer-auth.js"></script>
 <script>
   feather.replace();
   document.addEventListener('DOMContentLoaded', () => initProductPage());

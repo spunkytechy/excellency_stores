@@ -1,11 +1,23 @@
 // backend/routes/auth.js
 const express = require('express');
-const router = express.Router();
-const { login, me, changePassword } = require('../controllers/authController');
+const router  = express.Router();
+const {
+  register, login, me, logout,
+  forgotPassword, resetPassword,
+  changePassword, updateProfile
+} = require('../controllers/authController');
 const { requireAuth } = require('../middleware/auth');
 
-router.post('/login', login);
-router.get('/me', requireAuth, me);
-router.post('/change-password', requireAuth, changePassword);
+// Public
+router.post('/register',       register);
+router.post('/login',          login);
+router.post('/logout',         logout);
+router.post('/forgot-password',forgotPassword);
+router.post('/reset-password', resetPassword);
+
+// Protected (any logged-in user)
+router.get('/me',                     requireAuth, me);
+router.post('/change-password',       requireAuth, changePassword);
+router.put('/profile',                requireAuth, updateProfile);
 
 module.exports = router;

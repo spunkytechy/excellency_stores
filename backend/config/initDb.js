@@ -17,10 +17,24 @@ function initDb() {
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
-      role TEXT NOT NULL DEFAULT 'admin',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      role TEXT NOT NULL DEFAULT 'customer',
+      phone TEXT,
+      is_verified INTEGER NOT NULL DEFAULT 1,
+      reset_token TEXT,
+      reset_token_expires TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
   `);
+
+  // Migrate existing users table — add new columns if they don't exist yet
+  const userCols = db.prepare("PRAGMA table_info(users)").all().map(c => c.name);
+  if (!userCols.includes('phone'))               db.exec("ALTER TABLE users ADD COLUMN phone TEXT");
+  if (!userCols.includes('is_verified'))         db.exec("ALTER TABLE users ADD COLUMN is_verified INTEGER NOT NULL DEFAULT 1");
+  if (!userCols.includes('reset_token'))         db.exec("ALTER TABLE users ADD COLUMN reset_token TEXT");
+  if (!userCols.includes('reset_token_expires')) db.exec("ALTER TABLE users ADD COLUMN reset_token_expires TEXT");
+  // SQLite ALTER TABLE cannot use non-constant defaults (datetime('now') not allowed), so default to NULL
+  if (!userCols.includes('updated_at'))          db.exec("ALTER TABLE users ADD COLUMN updated_at TEXT");
 
   // ── Products ───────────────────────────────────────────────
   db.exec(`

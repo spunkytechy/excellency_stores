@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — KISSOWRA'S STORES</title>
+  <meta name="description" content="Create your KISSOWRA'S STORES account and start shopping premium lip gloss and fashion." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    .auth-page { background: linear-gradient(135deg, var(--clr-dark) 0%, #3a0a24 45%, var(--clr-primary-dark) 100%); }
+
+    .auth-card { animation: cardSlideUp .45s var(--ease-out) both; max-width: 480px; }
+    @keyframes cardSlideUp {
+      from { opacity: 0; transform: translateY(24px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)   scale(1);    }
+    }
+
+    .pw-wrap { position: relative; }
+    .pw-toggle {
+      position: absolute; right: var(--space-3); top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--clr-muted);
+      display: flex; padding: var(--space-1); border-radius: var(--radius-sm);
+      transition: color var(--duration-fast);
+    }
+    .pw-toggle:hover { color: var(--clr-primary); }
+
+    /* Password strength */
+    .strength-bar { height: 4px; border-radius: 99px; background: var(--clr-border); overflow: hidden; margin-top: var(--space-2); }
+    .strength-bar__fill { height: 100%; width: 0; border-radius: 99px; transition: width .35s, background .35s; }
+
+    .strength-label { font-size: 11px; font-weight: var(--fw-semi); margin-top: var(--space-1); }
+    .strength-weak   { color: var(--clr-error);   }
+    .strength-fair   { color: var(--clr-warning);  }
+    .strength-good   { color: #2e7d4f;             }
+    .strength-strong { color: var(--clr-success);  }
+
+    /* Checklist */
+    .pw-rules { display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2); }
+    .pw-rule  { display: flex; align-items: center; gap: var(--space-2); font-size: 11px; color: var(--clr-muted); }
+    .pw-rule.ok  { color: var(--clr-success); }
+    .pw-rule.ok  .pw-rule__dot  { background: var(--clr-success); }
+    .pw-rule__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--clr-border); flex-shrink: 0; transition: background .2s; }
+
+    .benefits {
+      background: var(--clr-accent-light);
+      border: 1px solid var(--clr-accent);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .benefit { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); color: var(--clr-mid); padding: var(--space-1) 0; }
+    .benefit__icon { font-size: 1.1rem; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div class="auth-page" role="main" aria-label="Sign up page">
+
+  <!-- Back link -->
+  <a href="index.html"
+     style="position:fixed;top:var(--space-5);left:var(--space-5);display:flex;align-items:center;gap:var(--space-2);
+            color:rgba(255,255,255,.65);font-size:var(--text-sm);font-weight:var(--fw-medium);z-index:10;
+            transition:color var(--duration-fast);"
+     onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='rgba(255,255,255,.65)'">
+    <i data-feather="arrow-left" style="width:16px;height:16px;"></i> Back to Store
+  </a>
+
+  <div class="auth-card" role="region" aria-labelledby="signupTitle">
+
+    <!-- Logo -->
+    <div class="auth-card__logo">KISSOWRA'<span>S</span> STORES</div>
+    <p class="auth-card__sub">Join thousands of beauty & fashion lovers.</p>
+
+    <h1 class="auth-card__title" id="signupTitle">Create Your Account ✨</h1>
+
+    <!-- Benefits -->
+    <div class="benefits" aria-label="Account benefits">
+      <div class="benefit"><span class="benefit__icon">🚀</span> Faster checkout every time</div>
+      <div class="benefit"><span class="benefit__icon">📦</span> Track all your orders in one place</div>
+      <div class="benefit"><span class="benefit__icon">💋</span> Get exclusive deals and early access</div>
+    </div>
+
+    <!-- Error / Success banners -->
+    <div class="auth-error" id="signupError" role="alert">
+      <i data-feather="alert-circle" style="width:15px;height:15px;flex-shrink:0;"></i>
+      <span id="signupErrorMsg"></span>
+    </div>
+
+    <form id="signupForm" novalidate autocomplete="on">
+      <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="suName">
+              Full Name <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input class="form-input" type="text" id="suName" name="name"
+              required autocomplete="name" placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suPhone">Phone Number</label>
+            <input class="form-input" type="tel" id="suPhone" name="phone"
+              autocomplete="tel" placeholder="e.g. 08012345678" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="suEmail">
+            Email Address <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input class="form-input" type="email" id="suEmail" name="email"
+            required autocomplete="email" placeholder="your@email.com" />
+          <div class="form-hint">We'll send your order confirmations here.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="suPassword">
+            Password <span class="required" aria-hidden="true">*</span>
+          </label>
+          <div class="pw-wrap">
+            <input class="form-input" type="password" id="suPassword" name="password"
+              required autocomplete="new-password" placeholder="Create a strong password" />
+            <button type="button" class="pw-toggle" id="suPwToggle" aria-label="Show password">
+              <i data-feather="eye" style="width:17px;height:17px;"></i>
+            </button>
+          </div>
+          <!-- Strength bar -->
+          <div class="strength-bar" id="strengthBar" aria-hidden="true">
+            <div class="strength-bar__fill" id="strengthFill"></div>
+          </div>
+          <div class="strength-label" id="strengthLabel" aria-live="polite"></div>
+          <!-- Rules checklist -->
+          <div class="pw-rules" aria-label="Password requirements">
+            <div class="pw-rule" id="ruleLen"><div class="pw-rule__dot"></div> At least 8 characters</div>
+            <div class="pw-rule" id="ruleUpper"><div class="pw-rule__dot"></div> One uppercase letter</div>
+            <div class="pw-rule" id="ruleLower"><div class="pw-rule__dot"></div> One lowercase letter</div>
+            <div class="pw-rule" id="ruleNum"><div class="pw-rule__dot"></div> One number</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="suConfirm">
+            Confirm Password <span class="required" aria-hidden="true">*</span>
+          </label>
+          <div class="pw-wrap">
+            <input class="form-input" type="password" id="suConfirm" name="confirm"
+              required autocomplete="new-password" placeholder="Re-enter your password" />
+            <button type="button" class="pw-toggle" id="suConfirmToggle" aria-label="Show confirm password">
+              <i data-feather="eye" style="width:17px;height:17px;"></i>
+            </button>
+          </div>
+          <div class="form-error" id="confirmError" style="display:none;">
+            <i data-feather="x-circle" style="width:13px;height:13px;"></i>
+            Passwords do not match
+          </div>
+        </div>
+
+        <label style="display:flex;align-items:flex-start;gap:var(--space-3);cursor:pointer;font-size:var(--text-sm);color:var(--clr-mid);">
+          <input type="checkbox" id="agreeTerms" required
+            style="width:16px;height:16px;margin-top:2px;accent-color:var(--clr-primary);flex-shrink:0;" />
+          <span>
+            I agree to KISSOWRA'S STORES'
+            <a href="#" style="color:var(--clr-primary);">Terms & Conditions</a>
+            and
+            <a href="#" style="color:var(--clr-primary);">Privacy Policy</a>
+          </span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn--full btn--lg" id="signupBtn">
+          Create My Account
+        </button>
+
+        <p style="text-align:center;font-size:var(--text-sm);color:var(--clr-muted);">
+          Already have an account?
+          <a href="signin.html" style="color:var(--clr-primary);font-weight:var(--fw-semi);">Sign In →</a>
+        </p>
+
+      </div>
+    </form>
+
+  </div><!-- /.auth-card -->
+</div>
+
+<!-- Success overlay (shown after registration) -->
+<div class="modal-overlay" id="successOverlay" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+  <div class="modal" style="max-width:420px;text-align:center;">
+    <div class="modal__body" style="padding:var(--space-10) var(--space-8);">
+      <div style="font-size:4rem;margin-bottom:var(--space-5);" aria-hidden="true">🎉</div>
+      <h2 id="successTitle" style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:var(--fw-bold);color:var(--clr-primary);margin-bottom:var(--space-3);">
+        Welcome to KISSOWRA'S STORES!
+      </h2>
+      <p style="color:var(--clr-muted);font-size:var(--text-sm);margin-bottom:var(--space-6);">
+        Your account has been created. Time to shop some gloss! 💋
+      </p>
+      <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+        <a href="shop.html" class="btn btn-primary btn--full btn--lg">Start Shopping →</a>
+        <a href="index.html" class="btn btn-ghost btn--full">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/customer-auth.js"></script>
+<script>
+  feather.replace();
+  document.addEventListener('DOMContentLoaded', () => {
+    if (CustomerAuth.isLoggedIn()) {
+      window.location.href = CustomerAuth.getRedirectUrl() || 'index.html';
+      return;
+    }
+    initSignUpPage();
+  });
+</script>
+</body>
+</html>
